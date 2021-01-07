@@ -1,0 +1,19 @@
+.nav-props {
+    background: transparent linear-gradient(92deg, #7F63F4 0%, #40327A 100%) 0% 0% no-repeat padding-box;       
+    box-shadow: 0px 0px 30px #00000014;
+    opacity: 1;
+    color: white;
+    z-index: 2;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+    margin-left: 22%;
+    height: 100%;
+    background: #E8E8E9 0% 0% no-repeat padding-box;
+    width:78%;
+    padding-top: 1%;
+    padding-left: 2%;
+    padding-right: 0.5%;
+    padding-bottom: 1%;
+  }

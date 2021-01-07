@@ -1,0 +1,128 @@
+.nav-props {
+    background: transparent linear-gradient(92deg, #7F63F4 0%, #40327A 100%) 0% 0% no-repeat padding-box;       
+    box-shadow: 0px 0px 30px #00000014;
+    opacity: 1;
+    color: white
+}
+
+/* The side navigation menu */
+.sidebar {
+  margin: 0;
+  padding: 21px;
+  padding-top: 6%;
+  width: 22%;
+  background-color: white;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  overflow: auto;
+  z-index: 1;
+  }
+
+  .flex {
+      display : flex;
+      justify-content: space-around;
+
+  }
+  
+  /* Sidebar links */
+  .sidebar a {
+    display: inline-block;
+    color: #BBC5D5;
+    padding: 16px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  /* Active/current link */
+  .sidebar a.active {
+   
+    color: black
+  }
+  
+  /* Links on mouse-over */
+  .sidebar a:hover {
+    /* border-bottom: 1px solid #0BCA11; */
+    color: black;
+  }
+
+  .sidebar-content-area {
+      left: 0;
+      position: fixed;
+      top: auto;
+      width: 22%;
+      height: 100%;
+      padding: 21px;
+      overflow: scroll;
+      padding-bottom : 10%;
+
+  }
+
+  .navbar.navbar-light .breadcrumb .nav-item .nav-link, .navbar.navbar-light .navbar-nav .nav-item .nav-link{
+    color:  #ffff !important
+  }
+
+  .round-corners {
+    border: 1px solid #DDDFE1;
+    padding: 7px 22px;
+    border-radius: 11px;
+    width: 100%;
+  }
+
+  .add-button {
+    margin-top: 7% !important;
+    border-radius: 9px !important;
+    padding: 9px 70px !important;
+    /* width: 146px; */
+    /* height: 35px; */
+    background: #438AFE 0% 0% no-repeat padding-box !important;
+  }
+
+  #programAccord ul li {
+    border-bottom: 1px solid lightgray;
+    list-style: none;
+    padding: 10px 10px;
+  }
+
+  #programAccord ul li:hover {
+    cursor: pointer;
+    color:#438AFE;
+
+  }
+
+  #programAccord ul{
+    padding-left: 5px;
+  }
+
+  .add-new-project-div {
+    text-align: center;
+    color: #438AFE
+  }
+
+  .add-new-project-div:hover {
+    color: black
+  }
+
+  button.btn.btn-block.builder-group-button{
+    font-weight: bold;
+    font-size: 10px;
+
+  }
+  .add-new-program-link {
+    margin-bottom: 3%;
+    background: rgba(0,0,0,.03);
+    padding: 4%;
+    font-weight: normal !important;
+    color: #438AFE;
+  }
+
+  a:hover {
+    color: black !important
+  }
+
+  .display-none {
+    display: 'none' !important
+  }
+
+
