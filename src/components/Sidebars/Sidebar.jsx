@@ -15,6 +15,7 @@ class Sidebar extends Component {
         this.state = {
             showModal: false,
             showAddProgramForm: false,
+            activeListProgramId: '',
             activeListProjectId: ''
         }
         this.addNewProgram = this.showAddNewProgramForm.bind(this)
@@ -22,6 +23,7 @@ class Sidebar extends Component {
         this.getFormDisplayClass = this.getFormDisplayClass.bind(this)
         this.getLinkDisplayClass = this.getLinkDisplayClass.bind(this)
         this.handleChangeActiveProjectListItem = this.handleChangeActiveProjectListItem.bind(this)
+        this.handleChangeActiveProgramListItem = this.handleChangeActiveProgramListItem.bind(this)
 
 
     }
@@ -51,6 +53,12 @@ class Sidebar extends Component {
         this.setState({ activeListProjectId: ListProjectId })
     }
 
+    handleChangeActiveProgramListItem(ListProgramId) {
+        console.log('I am in Handle Change Prog')
+        console.log(ListProgramId)
+        this.setState({ activeListProgramId: ListProgramId })
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -64,10 +72,11 @@ class Sidebar extends Component {
                         <Accordion defaultActiveKey="0">
                             <Card>
 
-                                <Accordion.Toggle as={Card.Header} eventKey="0">
-                                    <i className="fab fa-windows" style={{ color: 'black' }}></i>  {'\u00A0'} Programs
-                                </Accordion.Toggle>
-
+                                <div>
+                                    <Accordion.Toggle as={Card.Header} eventKey="0">
+                                        <i className="fab fa-windows" style={{ color: 'black' }}></i>  {'\u00A0'} Programs
+                                     </Accordion.Toggle>
+                                </div>
 
                                 <Accordion.Collapse eventKey="0">
                                     <Card.Body>
@@ -81,7 +90,7 @@ class Sidebar extends Component {
                                         {
                                             (this.props.programs.length > 0) ? this.props.programs.map(program => {
 
-                                                return <ProgramAccordian key={program.pid} program={program} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject} />
+                                                return <ProgramAccordian key={program.pid} program={program} handleChangeActiveProgramListItem={this.handleChangeActiveProgramListItem} activeListProgramId={this.state.activeListProgramId} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject} />
                                             }) : <FirstProgramForm addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} />
                                         }
 

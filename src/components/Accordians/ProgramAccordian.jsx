@@ -18,12 +18,19 @@ class ProgramAccordian extends Component {
         }
 
         this.handleProjectClick = this.handleProjectClick.bind(this);
-        this.handleAddNewProject = this.handleAddNewProject.bind(this)
+        this.handleAddNewProject = this.handleAddNewProject.bind(this);
+        this.handleAccordianClick = this.handleAccordianClick.bind(this);
+        this.getDefaultActiveKey = this.getDefaultActiveKey.bind(this);
 
     }
 
     handleAccordianClick(event) {
         console.log('Clicked Accordian')
+        let activeStatus = (this.state.isActive) ? false : true
+        console.log(activeStatus)
+        this.setState({ isActive: activeStatus })
+        // console.log(this.props.program.pid)
+        // this.props.handleChangeActiveProgramListItem(this.props.program.pid)
 
     }
 
@@ -43,7 +50,6 @@ class ProgramAccordian extends Component {
     }
 
     handleAddNewProject(event) {
-        console.log('I Clicked Add Button')
         let program = this.state.program
         let project = {}
         project.name = this.state.projectInputModal
@@ -61,6 +67,11 @@ class ProgramAccordian extends Component {
         console.log(listItemId)
         return ((listItemId === this.props.activeListProjectId) ? 'blue-text-color' : '')
 
+    }
+
+    getDefaultActiveKey(programId) {
+        console.log('I am in getDefault Active Key')
+        return ((programId === this.props.activeListProgramId) ? "0" : "1")
     }
 
 
@@ -92,13 +103,21 @@ class ProgramAccordian extends Component {
 
                 {// Accordian
                 }
-                <Accordion id="programAccord" key="ProgramAccord" style={{ backgroundColor: 'blue' }} onClick={(event) => this.handleAccordianClick(event)} >
+                <Accordion id="programAccord" key="ProgramAccord" defaultActiveKey={this.getDefaultActiveKey(this.props.program.pid)} style={{ backgroundColor: 'blue' }} onClick={(event) => this.handleAccordianClick(event)} >
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="0" >
                             <i className="fa fa-list" aria-hidden="true" style={{ color: 'black', fontWeight: 'bold' }}></i>
                             {'\u00A0'}
                             {'\u00A0'}
                             {this.props.program.name}
+                            {
+                                (this.state.isActive) ?
+                                    <div style={{ display: 'inline' }}> <i className="fas fa-angle-down" style={{ float: 'right', margin: '2%' }}></i></div> :
+                                    <div style={{ display: 'inline' }}> <i className="fas fa-angle-right" style={{ float: 'right', margin: '2%' }}></i></div>
+                            }
+
+
+
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
                             <Card.Body>

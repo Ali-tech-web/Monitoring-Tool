@@ -50,12 +50,12 @@ class App extends React.Component {
     console.log(project.form)
     let mainContentView;
     if (!(this.isEmpty(project))) {
-      console.log('I am in second Part')
+
       if (this.isEmpty(project.form)) {
-        console.log('I AM IN THE FORM EDIT')
+
         mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
       } else {
-        console.log('I AM IN THE FORm view')
+
         mainContentView = <FormView activeProgram={program} activeProject={project} updateForm={this.handleUpdateForm} />
       }
       // mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
