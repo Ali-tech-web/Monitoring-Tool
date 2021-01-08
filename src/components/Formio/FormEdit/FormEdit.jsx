@@ -61,11 +61,17 @@ class FrmEdit extends Component {
 
         } else {
             console.log('I am in form edit')
+            let form;
+            if (!(this.isEmpty(this.props.activeProject.form))) {
+                form = this.props.activeProject.form
+            } else {
+                form = { display: 'form' }
+            }
 
             return (
                 <div style={{ overflow: 'scroll' }}>
                     <FormEdit
-                        form={{ display: 'form' }}
+                        form={form}
                         onSaveComponent={(component) => this.saveComponent(component)}
                         saveText="Save"
                         saveForm={(form) => this.saveForm(form)}

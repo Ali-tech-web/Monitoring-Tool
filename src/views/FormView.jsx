@@ -31,6 +31,8 @@ class FormView extends Component {
     render() {
         var activeProject = this.props.activeProject
 
+        console.log('displaying active Project')
+
 
         return (
             <React.Fragment>

@@ -29,6 +29,7 @@ class App extends React.Component {
       activeProject: {},
       activeProgram: {},
       count: 0,
+      mainContent: ''
     };
     this.handleAddProgram = this.handleAddProgram.bind(this)
     this.handleAddProject = this.handleAddProject.bind(this)
@@ -47,7 +48,20 @@ class App extends React.Component {
     console.log(program)
     console.log(project)
     console.log(project.form)
-    this.setState({ activeProject: project, activeProgram: program })
+    let mainContentView;
+    if (!(this.isEmpty(project))) {
+      console.log('I am in second Part')
+      if (this.isEmpty(project.form)) {
+        console.log('I AM IN THE FORM EDIT')
+        mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
+      } else {
+        console.log('I AM IN THE FORm view')
+        mainContentView = <FormView activeProgram={program} activeProject={project} updateForm={this.handleUpdateForm} />
+      }
+      // mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
+    }
+
+    this.setState({ activeProject: project, activeProgram: program, mainContent: mainContentView })
   }
 
   handleAddProgram(program) {
@@ -62,6 +76,7 @@ class App extends React.Component {
     program.projects = []
     // adding totalProject (total Projects is used for project id's increment)
     program.totalProjects = 0
+
     programs.push(program)
     this.setState({ programs: programs })
     console.log('Final')
@@ -88,7 +103,20 @@ class App extends React.Component {
 
       return program
     })
-    this.setState({ programs: programs, activeProject: newActiveProj, activeProgram: newActiveProg })
+    let mainContentView;
+    mainContentView = <FormView activeProgram={newActiveProg} activeProject={newActiveProj} updateForm={this.handleUpdateForm} />
+    // if (!(this.isEmpty(project))) {
+    //   console.log('I am in second Part')
+    //   if (this.isEmpty(project.form)) {
+    //     console.log('I AM IN THE FORM EDIT')
+    //     mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
+    //   } else {
+    //     console.log('I AM IN THE FORm view')
+    //     mainContentView = <FormView activeProgram={program} activeProject={project} updateForm={this.handleUpdateForm} />
+    //   }
+    //   // mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
+    // }
+    this.setState({ programs: programs, activeProject: newActiveProj, activeProgram: newActiveProg, mainContent: mainContentView })
   }
 
   // to be done
@@ -97,13 +125,16 @@ class App extends React.Component {
     console.log(program)
     console.log(project)
     console.log(project.form)
+    /// might be the need to update the active state
+    let mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
+    this.setState({ mainContent: mainContentView })
     //
-    this.setState(state => ({
-      activeProject: {
-        ...state.activeProject,
-        updateFlag: true
-      },
-    }))
+    // this.setState(state => ({
+    //   activeProject: {
+    //     ...state.activeProject,
+    //     updateFlag: true
+    //   },
+    // }))
     // We need Form
 
     console.log(this.state)
@@ -143,33 +174,33 @@ class App extends React.Component {
 
   render() {
 
-    let mainContent = <h1> Hi</h1>
-    let activeProject = this.state.activeProject
+    // let mainContent = <h1> Hi</h1>
+    // let activeProject = this.state.activeProject
 
-    if (this.isEmpty(activeProject)) {
-      console.log('I am in First Part')
-      mainContent = ''
-    } else if (!(this.isEmpty(activeProject))) {
-      console.log('I am in second Part')
-      // if (this.isEmpty(activeProject.form)) {
-      //   mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
-      // } else {
-      //   if (activeProject.updateFlag) {
-      //     mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
-      //   } else {
-      //     mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
-      //   }
-      // }
+    // if (this.isEmpty(activeProject)) {
+    //   console.log('I am in First Part')
+    //   mainContent = ''
+    // } else if (!(this.isEmpty(activeProject))) {
+    //   console.log('I am in second Part')
+    //   // if (this.isEmpty(activeProject.form)) {
+    //   //   mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
+    //   // } else {
+    //   //   if (activeProject.updateFlag) {
+    //   //     mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
+    //   //   } else {
+    //   //     mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
+    //   //   }
+    //   // }
 
-      if (this.isEmpty(activeProject.form)) {
-        console.log('I AM IN THE FORM EDIT')
-        mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
-      } else {
-        console.log('I AM IN THE FORm view')
-        mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
-      }
-      // mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
-    }
+    //   if (this.isEmpty(activeProject.form)) {
+    //     console.log('I AM IN THE FORM EDIT')
+    //     mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
+    //   } else {
+    //     console.log('I AM IN THE FORm view')
+    //     mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
+    //   }
+    //   // mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
+    // }
 
     return (
       <React.Fragment>
@@ -179,7 +210,8 @@ class App extends React.Component {
           <div className="content">
             {
 
-              mainContent
+              this.state.mainContent
+              // mainContent
 
             }
           </div>

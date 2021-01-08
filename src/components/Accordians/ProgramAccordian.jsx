@@ -13,7 +13,8 @@ class ProgramAccordian extends Component {
             isActive: false,
             program: this.props.program,
             showModal: false,
-            projectInputModal: ''
+            projectInputModal: '',
+
         }
 
         this.handleProjectClick = this.handleProjectClick.bind(this);
@@ -28,6 +29,10 @@ class ProgramAccordian extends Component {
 
     handleProjectClick(event, proj) {
         event.stopPropagation()
+        console.log('I clicked a Project')
+        this.props.handleChangeActiveProjectListItem(event.target.id)
+        // console.log(event)
+        console.log(event.target.id)
         this.props.changeProject(this.state.program, proj)
     }
 
@@ -49,6 +54,13 @@ class ProgramAccordian extends Component {
 
     handleClose() {
         this.setState({ showModal: false })
+    }
+
+    ListItemClass(listItemId) {
+        console.log('I am in List Item class')
+        console.log(listItemId)
+        return ((listItemId === this.props.activeListProjectId) ? 'blue-text-color' : '')
+
     }
 
 
@@ -77,9 +89,14 @@ class ProgramAccordian extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Accordion id="programAccord" key="ProgramAccord" onClick={(event) => this.handleAccordianClick(event)} >
+
+                {// Accordian
+                }
+                <Accordion id="programAccord" key="ProgramAccord" style={{ backgroundColor: 'blue' }} onClick={(event) => this.handleAccordianClick(event)} >
                     <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="0">
+                        <Accordion.Toggle as={Card.Header} eventKey="0" >
+                            <i className="fa fa-list" aria-hidden="true" style={{ color: 'black', fontWeight: 'bold' }}></i>
+                            {'\u00A0'}
                             {'\u00A0'}
                             {this.props.program.name}
                         </Accordion.Toggle>
@@ -88,8 +105,13 @@ class ProgramAccordian extends Component {
                                 <ul>
                                     {
                                         this.props.program.projects.map(proj => {
-                                            return (<li key={proj.id} onClick={(event) => this.handleProjectClick(event, proj)}>
-                                                <i className="fas fa-project-diagram" style={{ color: '#AAAAAA' }} ></i>  {'\u00A0'} {proj.name}
+                                            {
+                                                // Concatenating id of project with program id
+                                                var listItemId = proj.id.toString() + this.props.program.pid.toString()
+                                                console.log('List id is given' + listItemId)
+                                            }
+                                            return (<li key={proj.id} id={listItemId} className={this.ListItemClass(listItemId)} onClick={(event) => this.handleProjectClick(event, proj)} >
+                                                <i className="fas fa-project-diagram"  ></i>  {'\u00A0'} {proj.name}
                                             </li>
                                             )
                                         })

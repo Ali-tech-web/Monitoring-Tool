@@ -13,8 +13,16 @@ class Sidebar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false
+            showModal: false,
+            showAddProgramForm: false,
+            activeListProjectId: ''
         }
+        this.addNewProgram = this.showAddNewProgramForm.bind(this)
+        this.hideAddProgramForm = this.hideAddProgramForm.bind(this)
+        this.getFormDisplayClass = this.getFormDisplayClass.bind(this)
+        this.getLinkDisplayClass = this.getLinkDisplayClass.bind(this)
+        this.handleChangeActiveProjectListItem = this.handleChangeActiveProjectListItem.bind(this)
+
 
     }
 
@@ -22,10 +30,25 @@ class Sidebar extends Component {
     //     this.props.changeProject(proj)
     //   }
 
-    addNewProgram() {
+    showAddNewProgramForm() {
         console.log('I have to add New Program')
-        this.setState({ showModal: true })
+        this.setState({ showAddProgramForm: true })
 
+    }
+    hideAddProgramForm() {
+        this.setState({ showAddProgramForm: false })
+    }
+
+    getFormDisplayClass() {
+        return ((this.state.showAddProgramForm) ? '' : 'display-none')
+    }
+
+    getLinkDisplayClass() {
+        return ((this.state.showAddProgramForm) ? 'display-none' : '')
+    }
+
+    handleChangeActiveProjectListItem(ListProjectId) {
+        this.setState({ activeListProjectId: ListProjectId })
     }
 
     render() {
@@ -40,67 +63,28 @@ class Sidebar extends Component {
                     <div className="sidebar-content-area">
                         <Accordion defaultActiveKey="0">
                             <Card>
+
                                 <Accordion.Toggle as={Card.Header} eventKey="0">
-                                    <i className="fab fa-windows" style={{ color: '#AAAAAA' }}></i>  {'\u00A0'} Programs
-              </Accordion.Toggle>
+                                    <i className="fab fa-windows" style={{ color: 'black' }}></i>  {'\u00A0'} Programs
+                                </Accordion.Toggle>
+
+
                                 <Accordion.Collapse eventKey="0">
                                     <Card.Body>
                                         {
-                                            (this.props.programs.length > 0) ? <div className='add-new-program-link'>
-                                                {
-                                                    // <a id='addNewProgramLink' onClick={() => this.addNewProgram()}><i className="fa fa-plus" aria-hidden="true" ></i> New Program</a>
-                                                }
-
-
-                                                <FirstProgramForm id='addProgramForm' addProgram={this.props.addProgram} />
+                                            (this.props.programs.length > 0) ? <div className='add-new-program-link '>
+                                                <a id='addNewProgramLink' className={this.getLinkDisplayClass()} style={{ fontWeight: 'normal' }} onClick={() => this.showAddNewProgramForm()}><i className="fa fa-plus" aria-hidden="true" ></i> New Program</a>
+                                                <div className={this.getFormDisplayClass()}> <FirstProgramForm id='addProgramForm' addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} /></div>
                                             </div> : ''
 
                                         }
-
                                         {
                                             (this.props.programs.length > 0) ? this.props.programs.map(program => {
-                                                return <ProgramAccordian key={program.pid} program={program} changeProject={this.props.changeProject} addProject={this.props.addProject} />
-                                            }) : <FirstProgramForm addProgram={this.props.addProgram} />
+
+                                                return <ProgramAccordian key={program.pid} program={program} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject} />
+                                            }) : <FirstProgramForm addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} />
                                         }
 
-                                        {
-                                            // {this.props.programs.map(program => {
-                                            //     return <ProgramAccordian key={program.pid} program={program}/>
-                                            //  })}
-                                        }
-
-
-
-
-
-
-                                        { /*            
-                    <Accordion id="programAccord" key="ProgramAccord" defaultActiveKey="0">
-                        <Card>
-                            <Accordion.Toggle as={Card.Header} eventKey="0">
-                              {'\u00A0'} 
-                                Skills for 2020
-                            </Accordion.Toggle>
-                            <Accordion.Collapse eventKey="0">
-                            <Card.Body>
-                                <ul>
-                                  <li>
-                                  <i class="fas fa-project-diagram" style={{color: '#AAAAAA'}}></i>  {'\u00A0'} CNC Machine Training
-                                  </li>
-                                  <li>
-                                  <i class="fas fa-project-diagram" style={{color: '#AAAAAA'}}></i>   {'\u00A0'} Stitching
-                                  </li>
-                                </ul>
-                                <div className="add-new-project-div">
-                                    <a> <i class="fas fa-plus" aria-hidden="true"></i> Add New Project</a>
-                                </div>
-                              
-
-                            </Card.Body>
-                            </Accordion.Collapse>
-                        </Card>
-                    </Accordion>
-                */  }
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>

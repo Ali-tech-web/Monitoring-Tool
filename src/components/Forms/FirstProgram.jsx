@@ -16,7 +16,7 @@ export default function FirstProgram(props) {
   }
 
   const addProgram = (programName) => {
-
+    props.hideAddProgramForm()
     props.addProgram({ name: programName.programName })
 
   }
