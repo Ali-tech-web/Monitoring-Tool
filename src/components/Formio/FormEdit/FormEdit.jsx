@@ -74,7 +74,7 @@ class FrmEdit extends Component {
             }
 
             return (
-                <div style={{ overflow: 'scroll' }}>
+                <div style={{ overflow: 'scroll' }} className="hide-scrollbar">
                     <FormEdit
                         form={form}
                         onSaveComponent={(component) => this.saveComponent(component)}

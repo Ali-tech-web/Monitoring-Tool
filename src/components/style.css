@@ -10,7 +10,7 @@
   margin: 0;
   padding: 21px;
   padding-top: 6%;
-  width: 22%;
+  width: 23%;
   background-color: white;
   position: fixed;
   height: 100%;
@@ -51,7 +51,7 @@
       left: 0;
       position: fixed;
       top: auto;
-      width: 22%;
+      width: 23%;
       height: 100%;
       padding: 21px;
       overflow: scroll;
@@ -83,6 +83,7 @@
     border-bottom: 1px solid lightgray;
     list-style: none;
     padding: 10px 10px;
+    font-size: 13px
   }
 
   #programAccord ul li:hover {
