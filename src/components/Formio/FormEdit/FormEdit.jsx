@@ -22,24 +22,29 @@ class FrmEdit extends Component {
     saveForm(form) {
         console.log("Form Data is below")
         // Send a POST request
-        axios({
-            method: 'post',
-            url: 'https://api.appilizer.com/api/form',
-            data: form
-        })
-            .then(res => {
-                console.log('Response Received')
-                console.log(res.data)
-                this.setState({
-                    redirect: true,
-                    form: res.data.Response
-                })
+        // axios({
+        //     method: 'post',
+        //     url: 'https://api.appilizer.com/frontend/form',
+        //     data: form
+        // })
+        //     .then(res => {
+        //         console.log('Response Received')
+        //         console.log(res.data)
+        //         this.setState({
+        //             redirect: true,
+        //             form: res.data.Response
+        //         })
 
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        //console.log(form)
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+
+        this.setState({
+            redirect: true,
+            form: form
+        })
+
 
     }
 

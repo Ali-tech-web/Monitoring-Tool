@@ -6,15 +6,9 @@ import React from 'react';
 import axios from "axios";
 import FormEdit from './components/Formio/FormEdit/FormEdit.jsx'
 import FormView from './views/FormView'
-import Form from './components/Formio/FormEdit/Form.jsx'
-import Modal from './components/Modals/AddNewProjectModal.jsx'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-// import { ReactFormGenerator,ReactFormBuilder,DemoBar } from 'react-form-builder2';
-// import 'react-form-builder2/dist/app.css';
-// import FormBuilder from 'react-forms-builder'
-// import {FormBuilder, Form, FormEdit, FormGrid} from 'react-formio';
-// import Formio from 'formiojs';
 import './style.css'
+import { saveForm } from './apiRequests/postRequests'
 
 
 
@@ -44,10 +38,7 @@ class App extends React.Component {
   //                {pid:2 ,name : 'Skills for 2020',projects: [{id:1, name:"CNC Machine Training"},{id:2, name: "Stitching"}], isActive: false}
 
   handleProjectChange(program, project) {
-    console.log('I am in app.js')
-    console.log(program)
-    console.log(project)
-    console.log(project.form)
+
     let mainContentView;
     if (!(this.isEmpty(project))) {
 
@@ -58,7 +49,7 @@ class App extends React.Component {
 
         mainContentView = <FormView activeProgram={program} activeProject={project} updateForm={this.handleUpdateForm} />
       }
-      // mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
+
     }
 
     this.setState({ activeProject: project, activeProgram: program, mainContent: mainContentView })
@@ -84,9 +75,7 @@ class App extends React.Component {
   }
 
   handleFormSave(form) {
-    console.log('I have to save the form')
-    console.log('In handle form')
-    console.log(form);
+
     var newActiveProg = {}, newActiveProj = {};
     let programs = this.state.programs.map(program => {
       if (program.name === this.state.activeProgram.name) {
@@ -95,7 +84,6 @@ class App extends React.Component {
             proj.form = form
             newActiveProg = program;
             newActiveProj = proj
-
           }
         }
         )
@@ -103,39 +91,30 @@ class App extends React.Component {
 
       return program
     })
-    let mainContentView;
-    mainContentView = <FormView activeProgram={newActiveProg} activeProject={newActiveProj} updateForm={this.handleUpdateForm} />
-    // if (!(this.isEmpty(project))) {
-    //   console.log('I am in second Part')
-    //   if (this.isEmpty(project.form)) {
-    //     console.log('I AM IN THE FORM EDIT')
-    //     mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
-    //   } else {
-    //     console.log('I AM IN THE FORm view')
-    //     mainContentView = <FormView activeProgram={program} activeProject={project} updateForm={this.handleUpdateForm} />
-    //   }
-    //   // mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
-    // }
-    this.setState({ programs: programs, activeProject: newActiveProj, activeProgram: newActiveProg, mainContent: mainContentView })
+
+    saveForm(newActiveProg).then(res => {
+      // Need To send to the server
+      console.log('I am about to get the response')
+      console.log(res.data)
+      let mainContentView;
+      mainContentView = <FormView activeProgram={newActiveProg} activeProject={newActiveProj} updateForm={this.handleUpdateForm} />
+      this.setState({ programs: programs, activeProject: newActiveProj, activeProgram: newActiveProg, mainContent: mainContentView })
+
+    })
+      .catch(err => {
+        console.log(err)
+      })
+
+
+
   }
 
-  // to be done
+
   handleUpdateForm(program, project) {
-    console.log('In app.js, need to update form')
-    console.log(program)
-    console.log(project)
-    console.log(project.form)
+
     /// might be the need to update the active state
     let mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
     this.setState({ mainContent: mainContentView })
-    //
-    // this.setState(state => ({
-    //   activeProject: {
-    //     ...state.activeProject,
-    //     updateFlag: true
-    //   },
-    // }))
-    // We need Form
 
     console.log(this.state)
   }
@@ -173,34 +152,6 @@ class App extends React.Component {
   }
 
   render() {
-
-    // let mainContent = <h1> Hi</h1>
-    // let activeProject = this.state.activeProject
-
-    // if (this.isEmpty(activeProject)) {
-    //   console.log('I am in First Part')
-    //   mainContent = ''
-    // } else if (!(this.isEmpty(activeProject))) {
-    //   console.log('I am in second Part')
-    //   // if (this.isEmpty(activeProject.form)) {
-    //   //   mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
-    //   // } else {
-    //   //   if (activeProject.updateFlag) {
-    //   //     mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
-    //   //   } else {
-    //   //     mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
-    //   //   }
-    //   // }
-
-    //   if (this.isEmpty(activeProject.form)) {
-    //     console.log('I AM IN THE FORM EDIT')
-    //     mainContent = <FormEdit activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} saveForm={this.handleFormSave} />;
-    //   } else {
-    //     console.log('I AM IN THE FORm view')
-    //     mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
-    //   }
-    //   // mainContent = <FormView activeProgram={this.state.activeProgram} activeProject={this.state.activeProject} updateForm={this.handleUpdateForm} />
-    // }
 
     return (
       <React.Fragment>
