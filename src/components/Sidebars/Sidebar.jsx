@@ -68,7 +68,7 @@ class Sidebar extends Component {
                         <a href="#education" className="col-4 text-center">Execution</a>
                         <a href="#evaluation" className="col-4 text-center">Evaluation</a>
                     </div>
-                    <div className="sidebar-content-area">
+                    <div className="sidebar-content-area hide-scrollbar">
                         <Accordion defaultActiveKey="0">
                             <Card>
 
