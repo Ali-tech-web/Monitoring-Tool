@@ -28,12 +28,10 @@ class Sidebar extends Component {
 
     }
 
-    //   changeProject(proj) {
-    //     this.props.changeProject(proj)
-    //   }
+
 
     showAddNewProgramForm() {
-        console.log('I have to add New Program')
+
         this.setState({ showAddProgramForm: true })
 
     }

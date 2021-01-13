@@ -25,20 +25,18 @@ class ProgramAccordian extends Component {
     }
 
     handleAccordianClick(event) {
-        console.log('Clicked Accordian')
+
         let activeStatus = (this.state.isActive) ? false : true
-        console.log(activeStatus)
         this.setState({ isActive: activeStatus })
-        // console.log(this.props.program.pid)
-        // this.props.handleChangeActiveProgramListItem(this.props.program.pid)
+
 
     }
 
     handleProjectClick(event, proj) {
         event.stopPropagation()
-        console.log('I clicked a Project')
+
         this.props.handleChangeActiveProjectListItem(event.target.id)
-        // console.log(event)
+
         console.log(event.target.id)
         this.props.changeProject(this.state.program, proj)
     }
@@ -63,14 +61,13 @@ class ProgramAccordian extends Component {
     }
 
     ListItemClass(listItemId) {
-        console.log('I am in List Item class')
-        console.log(listItemId)
+
         return ((listItemId === this.props.activeListProjectId) ? 'blue-text-color' : '')
 
     }
 
     getDefaultActiveKey(programId) {
-        console.log('I am in getDefault Active Key')
+
         return ((programId === this.props.activeListProgramId) ? "0" : "1")
     }
 
@@ -127,7 +124,7 @@ class ProgramAccordian extends Component {
                                             {
                                                 // Concatenating id of project with program id
                                                 var listItemId = proj.id.toString() + this.props.program.pid.toString()
-                                                console.log('List id is given' + listItemId)
+
                                             }
                                             return (<li key={proj.id} id={listItemId} className={this.ListItemClass(listItemId)} onClick={(event) => this.handleProjectClick(event, proj)} >
                                                 <i className="fas fa-project-diagram"  ></i>  {'\u00A0'} {proj.name}

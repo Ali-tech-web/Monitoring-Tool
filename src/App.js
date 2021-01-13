@@ -8,7 +8,7 @@ import FormEdit from './components/Formio/FormEdit/FormEdit.jsx'
 import FormView from './views/FormView'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './style.css'
-import { saveForm } from './apiRequests/postRequests'
+import { saveForm, addNewProgram, addNewProject } from './apiRequests/postRequests'
 
 
 
@@ -56,46 +56,105 @@ class App extends React.Component {
   }
 
   handleAddProgram(program) {
-    console.log(program)
-    var programs = []
-    programs = this.state.programs
-    var count = this.state.count
-    program.pid = count
-    count++
-    //cbw
-    this.setState({ count: count })
-    program.projects = []
-    // adding totalProject (total Projects is used for project id's increment)
-    program.totalProjects = 0
 
-    programs.push(program)
-    this.setState({ programs: programs })
-    console.log('Final')
-    console.log(programs)
-  }
-
-  handleFormSave(form) {
-
-    var newActiveProg = {}, newActiveProj = {};
-    let programs = this.state.programs.map(program => {
-      if (program.name === this.state.activeProgram.name) {
-        program.projects.forEach((proj) => {
-          if (proj.name === this.state.activeProject.name) {
-            proj.form = form
-            newActiveProg = program;
-            newActiveProj = proj
-          }
-        }
-        )
+    addNewProgram(program).then(res => {
+      if (res.data.success) {
+        console.log('I have Received Response')
+        console.log(res.data)
+        var programs = []
+        programs = this.state.programs
+        var count = this.state.count
+        program = res.data.program
+        // Pid is used Only in the frontend to distinguish programs
+        program.pid = count
+        count++
+        //cbw
+        // this.setState({ count: count })
+        // adding totalProject (total Projects is used for project id's increment)
+        program.totalProjects = 0
+        console.log(program)
+        programs.push(program)
+        this.setState({ programs: programs, count: count })
+      } else {
+        console.log('Could Not Insert Program')
       }
-
-      return program
+    }).catch(err => {
+      console.log('Could Not Add Program in to the database : ' + err)
     })
 
-    saveForm(newActiveProg).then(res => {
+  }
+
+  // handleFormSave(form) {
+  //   var newActiveProg = {}, newActiveProj = {};
+  //   let programs = this.state.programs.map(program => {
+  //     if (program.name === this.state.activeProgram.name) {
+  //       program.projects.forEach((proj) => {
+  //         if (proj.name === this.state.activeProject.name) {
+  //           proj.form = form
+  //           newActiveProg = program;
+  //           newActiveProj = proj
+  //         }
+  //       }
+  //       )
+  //     }
+
+  //     return program
+  //   })
+
+  //   saveForm(newActiveProg).then(res => {
+  //     // Need To send to the server
+  //     console.log('I am about to get the response')
+  //     console.log(res.data)
+  //     let mainContentView;
+  //     mainContentView = <FormView activeProgram={newActiveProg} activeProject={newActiveProj} updateForm={this.handleUpdateForm} />
+  //     this.setState({ programs: programs, activeProject: newActiveProj, activeProgram: newActiveProg, mainContent: mainContentView })
+
+  //   })
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
+
+  // }
+
+
+  handleFormSave(form) {
+    var newActiveProg = {}, newActiveProj = {};
+    var postData = {
+      programId: this.state.activeProgram._id,
+      project: this.state.activeProject,
+      form: form
+    }
+    saveForm(postData).then(res => {
       // Need To send to the server
-      console.log('I am about to get the response')
+      console.log('I am about to get the response : handleForm Save')
       console.log(res.data)
+      console.log('Active Proj')
+      console.log(this.state.activeProject)
+      console.log('Active Program')
+      console.log(this.state.activeProgram)
+      let project = res.data.project
+
+
+      let programs = this.state.programs.map(program => {
+
+        if (program._id == this.state.activeProgram._id) {
+          program.projects.forEach((proj) => {
+
+            if (proj.id == project._id) {
+              console.log('I am innn')
+              console.log(proj)
+              console.log(res.data.project)
+              proj.form = form
+              newActiveProg = program;
+              newActiveProj = proj
+            }
+          }
+          )
+        }
+
+        return program
+      })
+
       let mainContentView;
       mainContentView = <FormView activeProgram={newActiveProg} activeProject={newActiveProj} updateForm={this.handleUpdateForm} />
       this.setState({ programs: programs, activeProject: newActiveProj, activeProgram: newActiveProg, mainContent: mainContentView })
@@ -104,14 +163,10 @@ class App extends React.Component {
       .catch(err => {
         console.log(err)
       })
-
-
-
   }
 
 
   handleUpdateForm(program, project) {
-
     /// might be the need to update the active state
     let mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
     this.setState({ mainContent: mainContentView })
@@ -120,26 +175,36 @@ class App extends React.Component {
   }
 
   handleAddProject(program, project) {
-    console.log(program)
-    let newProject = {}
-    newProject.id = program.totalProjects
-    // need to increment total count
-    // Project will be an object and passed through params 
-    newProject.name = project.name
-    newProject.form = {}
-    let programs = this.state.programs.map(prog => {
-      if (prog.name === program.name) {
-        prog.projects.push(newProject)
-        //cbw
-        prog.totalProjects++
+    // send program ID and the project object to server 
+    var postData = {
+      project: project,
+      programId: program._id
+    }
+    addNewProject(postData).then(res => {
+      console.log('Received Response')
+      console.log(res.data)
+      if (res.data.success) {
+        let newProject = {}
+        newProject.id = res.data.project._id
+        newProject.name = res.data.project.name
+        newProject.form = {}
+        let programs = this.state.programs.map(prog => {
+          if (prog.name === program.name) {
+            prog.projects.push(newProject)
+            // need to increment total count
+            console.log(prog)
+            prog.totalProjects++
+
+          }
+          return prog
+        })
+
+        this.setState({ programs: programs })
 
       }
-      return prog
+
     })
 
-    this.setState({ programs: programs })
-    console.log(this.state.programs)
-    console.log('I have to add New Project')
   }
 
   // checks if an object is empty
