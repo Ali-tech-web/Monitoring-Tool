@@ -67,35 +67,7 @@ class Sidebar extends Component {
                         <a href="#evaluation" className="col-4 text-center">Evaluation</a>
                     </div>
                     <div className="sidebar-content-area hide-scrollbar">
-                        <Accordion defaultActiveKey="0">
-                            <Card>
 
-                                <div>
-                                    <Accordion.Toggle as={Card.Header} eventKey="0">
-                                        <i className="fab fa-windows" style={{ color: 'black' }}></i>  {'\u00A0'} Programs
-                                     </Accordion.Toggle>
-                                </div>
-
-                                <Accordion.Collapse eventKey="0">
-                                    <Card.Body>
-                                        {
-                                            (this.props.programs.length > 0) ? <div className='add-new-program-link '>
-                                                <a id='addNewProgramLink' className={this.getLinkDisplayClass()} style={{ fontWeight: 'normal' }} onClick={() => this.showAddNewProgramForm()}><i className="fa fa-plus" aria-hidden="true" ></i> New Program</a>
-                                                <div className={this.getFormDisplayClass()}> <FirstProgramForm id='addProgramForm' addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} /></div>
-                                            </div> : ''
-
-                                        }
-                                        {
-                                            (this.props.programs.length > 0) ? this.props.programs.map(program => {
-
-                                                return <ProgramAccordian key={program.pid} program={program} handleChangeActiveProgramListItem={this.handleChangeActiveProgramListItem} activeListProgramId={this.state.activeListProgramId} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject} />
-                                            }) : <FirstProgramForm addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} />
-                                        }
-
-                                    </Card.Body>
-                                </Accordion.Collapse>
-                            </Card>
-                        </Accordion>
                     </div>
                 </div>
 
