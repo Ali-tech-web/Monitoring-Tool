@@ -66,15 +66,17 @@ class App extends React.Component {
         programs = this.state.programs
         var count = this.state.count
         program = res.data.program
+        program.id = res.data.program._id
         //Need To Persist in database 
         program.goals = []
+
         // Pid is used Only in the frontend to distinguish programs
         program.pid = count
         count++
         //cbw
         // this.setState({ count: count })
         // adding totalProject (total Projects is used for project id's increment)
-        program.totalProjects = 0
+        // program.totalProjects = 0
         console.log(program)
         programs.push(program)
         this.setState({ programs: programs, count: count })
@@ -123,7 +125,7 @@ class App extends React.Component {
   handleFormSave(form) {
     var newActiveProg = {}, newActiveProj = {};
     var postData = {
-      programId: this.state.activeProgram._id,
+      programId: this.state.activeProgram.id,
       project: this.state.activeProject,
       form: form
     }
@@ -140,7 +142,7 @@ class App extends React.Component {
 
       let programs = this.state.programs.map(program => {
 
-        if (program._id == this.state.activeProgram._id) {
+        if (program.id == this.state.activeProgram.id) {
           program.projects.forEach((proj) => {
 
             if (proj.id == project._id) {
@@ -177,13 +179,16 @@ class App extends React.Component {
     console.log(this.state)
   }
 
+
   handleAddGoal(program, goal) {
-    console.log('I have to Add Goal')
-    console.log(program)
-    console.log(goal)
-    // api call To store goal in the database
+    // goals have a list projects , when api is made then no need this
+    goal.projects = []
+    // when server incorporated Need to egt from server
+    goal.id = program.goals.length.toString();
+
+    // api call To store goal in the database should be here
     var programs = this.state.programs.map(prog => {
-      if (prog._id == program._id) {
+      if (prog.id == program.id) {
         prog.goals.push(goal)
       }
       return prog
@@ -191,7 +196,7 @@ class App extends React.Component {
 
     this.setState({ programs: programs })
     // console.log('Updated Programs are')
-    // console.log(this.state.programs)
+    console.log(this.state.programs)
   }
 
   handleAddProject(program, project, goal) {
@@ -201,32 +206,57 @@ class App extends React.Component {
       programId: program._id,
       goal: goal
     }
-    addNewProject(postData).then(res => {
-      console.log('Received Response')
-      console.log(res.data)
-      if (res.data.success) {
 
+    console.log(project)
+    console.log(program)
+    console.log(goal)
 
-        let newProject = {}
-        newProject.id = res.data.project._id
-        newProject.name = res.data.project.name
-        newProject.form = {}
-        let programs = this.state.programs.map(prog => {
-          if (prog.name === program.name) {
-            prog.projects.push(newProject)
-            // need to increment total count
-            console.log(prog)
-            prog.totalProjects++
+    // Need to update when we receive it from server
+    project.id = goal.projects.length.toString();
+    project.objectives = []
 
+    // logic to add project in a goal
+    let programs = this.state.programs.map(prog => {
+      if (prog.id == program.id) {
+        prog.goals.forEach(gol => {
+          if (gol.id == goal.id) {
+            gol.projects.push(project)
           }
-          return prog
         })
-
-        this.setState({ programs: programs })
-
       }
-
+      return prog
     })
+
+    this.setState({ programs: programs })
+    // console.log('Updated Programs are')
+    console.log(this.state.programs)
+
+    // addNewProject(postData).then(res => {
+    //   console.log('Received Response')
+    //   console.log(res.data)
+    //   if (res.data.success) {
+
+
+    //     let newProject = {}
+    //     newProject.id = res.data.project._id
+    //     newProject.name = res.data.project.name
+    //     newProject.form = {}
+    //     let programs = this.state.programs.map(prog => {
+    //       if (prog.name === program.name) {
+    //         prog.projects.push(newProject)
+    //         // need to increment total count
+    //         console.log(prog)
+    //         prog.totalProjects++
+
+    //       }
+    //       return prog
+    //     })
+
+    //     this.setState({ programs: programs })
+
+    //   }
+
+    // })
 
   }
 

@@ -6,7 +6,7 @@ import '../style.css'
 
 
 
-class GoalAccordian extends Component {
+class ProjectAccordian extends Component {
     // Need To pass in props  1: program 2:handleChangeActiveProjectListItem 3:handleChangeActiveProjectListItem 4:activeListProgramId 5:addProject
 
 
@@ -165,4 +165,4 @@ class GoalAccordian extends Component {
     }
 }
 
-export default GoalAccordian;
+export default ProjectAccordian;
