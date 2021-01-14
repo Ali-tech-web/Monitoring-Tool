@@ -30,6 +30,7 @@ class App extends React.Component {
     this.handleProjectChange = this.handleProjectChange.bind(this)
     this.handleFormSave = this.handleFormSave.bind(this)
     this.handleUpdateForm = this.handleUpdateForm.bind(this)
+    this.handleAddGoal = this.handleAddGoal.bind(this)
 
 
   }
@@ -65,6 +66,8 @@ class App extends React.Component {
         programs = this.state.programs
         var count = this.state.count
         program = res.data.program
+        //Need To Persist in database 
+        program.goals = []
         // Pid is used Only in the frontend to distinguish programs
         program.pid = count
         count++
@@ -174,16 +177,36 @@ class App extends React.Component {
     console.log(this.state)
   }
 
-  handleAddProject(program, project) {
+  handleAddGoal(program, goal) {
+    console.log('I have to Add Goal')
+    console.log(program)
+    console.log(goal)
+    // api call To store goal in the database
+    var programs = this.state.programs.map(prog => {
+      if (prog._id == program._id) {
+        prog.goals.push(goal)
+      }
+      return prog
+    })
+
+    this.setState({ programs: programs })
+    // console.log('Updated Programs are')
+    // console.log(this.state.programs)
+  }
+
+  handleAddProject(program, project, goal) {
     // send program ID and the project object to server 
     var postData = {
       project: project,
-      programId: program._id
+      programId: program._id,
+      goal: goal
     }
     addNewProject(postData).then(res => {
       console.log('Received Response')
       console.log(res.data)
       if (res.data.success) {
+
+
         let newProject = {}
         newProject.id = res.data.project._id
         newProject.name = res.data.project.name
@@ -222,7 +245,7 @@ class App extends React.Component {
       <React.Fragment>
         <Navbar />
         <div>
-          <Sidebar programs={this.state.programs} changeProject={this.handleProjectChange} addProgram={this.handleAddProgram} addProject={this.handleAddProject} />
+          <Sidebar programs={this.state.programs} changeProject={this.handleProjectChange} addGoal={this.handleAddGoal} addProgram={this.handleAddProgram} addProject={this.handleAddProject} />
           <div className="content">
             {
 

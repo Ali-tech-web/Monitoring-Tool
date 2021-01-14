@@ -8,12 +8,12 @@
 
 /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
 div.content {
-    margin-left: 22%;
+    margin-left: 27%;
     height: 100%;
     background: #E8E8E9 0% 0% no-repeat padding-box;
-    width:78%;
+    width:73%;
     padding-top: 1%;
-    padding-left: 2%;
+    padding-left: 1%;
     padding-right: 0.5%;
     padding-bottom: 1%;
   }

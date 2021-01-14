@@ -24,6 +24,7 @@
     "react-formio": "^4.3.0",
     "react-forms-builder": "0.0.3",
     "react-scripts": "4.0.1",
+    "react-tooltip": "^4.2.11",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

@@ -27,7 +27,7 @@ export default function FirstProgram(props) {
   })
 
   return (
-    <form style={{ textAlign: 'center' }} onSubmit={preventDefault}>
+    <form style={{ textAlign: 'center', padding: '5%' }} onSubmit={preventDefault}>
       <input
         type="text"
         className="round-corners"
