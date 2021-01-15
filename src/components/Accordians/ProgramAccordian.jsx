@@ -125,7 +125,7 @@ class ProgramAccordian extends Component {
 
                                 {
                                     this.props.program.goals.map(goal => {
-                                        return (<GoalAccordian goal={goal} program={this.props.program} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} addProject={this.props.addProject} changeProject={this.props.changeProject} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem} />)
+                                        return (<GoalAccordian key={goal.id} goal={goal} program={this.props.program} addObjective={this.props.addObjective} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} addProject={this.props.addProject} changeProject={this.props.changeProject} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem} />)
                                     })
                                 }
 

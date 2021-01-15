@@ -3,6 +3,7 @@ import { Accordion, Card, Button, Modal } from 'react-bootstrap';
 import 'font-awesome/css/font-awesome.min.css';
 import ReactTooltip from 'react-tooltip';
 import '../style.css'
+import ProjectAccordian from '../Accordians/ProjectAccordian'
 
 
 
@@ -137,21 +138,18 @@ class GoalAccordian extends Component {
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
                             <Card.Body style={{ padding: '1%' }}>
-                                <ul>
-                                    {
-                                        this.props.goal.projects.map(proj => {
-                                            {
-                                                // Concatenating id of project with program id
-                                                var listItemId = proj.id.toString() + this.props.program.id.toString()
 
-                                            }
-                                            return (<li key={proj.id} id={listItemId} className={this.ListItemClass(listItemId)} onClick={(event) => this.handleProjectClick(event, proj)} >
-                                                <i className="fas fa-project-diagram"  ></i>  {'\u00A0'} {proj.name}
-                                            </li>
-                                            )
-                                        })
-                                    }
-                                </ul>
+                                {
+                                    this.props.goal.projects.map(proj => {
+                                        // {
+                                        //     // Concatenating id of project with program id
+                                        //     var listItemId = proj.id.toString() + this.props.program.id.toString()
+
+                                        // }
+                                        return (<ProjectAccordian program={this.props.program} project={proj} goal={this.props.goal} addObjective={this.props.addObjective} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem} changeProject={this.props.changeProject} addProject={this.props.addProject} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} />)
+                                    })
+                                }
+
                                 <div className="add-new-project-div">
                                     <a onClick={(event) => this.handleAddNewProjectClick(event)}> <i className="fas fa-plus" aria-hidden="true" ></i> Add Project</a>
                                 </div>

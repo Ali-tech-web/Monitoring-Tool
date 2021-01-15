@@ -31,6 +31,7 @@ class App extends React.Component {
     this.handleFormSave = this.handleFormSave.bind(this)
     this.handleUpdateForm = this.handleUpdateForm.bind(this)
     this.handleAddGoal = this.handleAddGoal.bind(this)
+    this.handleAddProjectObjective = this.handleAddProjectObjective.bind(this)
 
 
   }
@@ -260,6 +261,43 @@ class App extends React.Component {
 
   }
 
+  handleAddProjectObjective(data) {
+    console.log('I am in Add Project objective')
+    var project = data.project;
+    var program = data.program;
+    var objective = {}
+    objective.name = data.objective
+    objective.id = project.objectives.length;
+
+    var goal = data.goal
+
+    let programs = this.state.programs.map(prog => {
+      if (prog.id == program.id) {
+        prog.goals.forEach(gol => {
+          if (gol.id == goal.id) {
+            gol.projects.forEach(proj => {
+              if (proj.id == project.id) {
+                proj.objectives.push(objective)
+              }
+
+            })
+          }
+
+        })
+      }
+
+      return prog
+    })
+
+
+    this.setState({ programs: programs })
+    console.log(this.state)
+
+
+
+
+  }
+
   // checks if an object is empty
   isEmpty(obj) {
     for (var key in obj) {
@@ -275,7 +313,7 @@ class App extends React.Component {
       <React.Fragment>
         <Navbar />
         <div>
-          <Sidebar programs={this.state.programs} changeProject={this.handleProjectChange} addGoal={this.handleAddGoal} addProgram={this.handleAddProgram} addProject={this.handleAddProject} />
+          <Sidebar programs={this.state.programs} addObjective={this.handleAddProjectObjective} changeProject={this.handleProjectChange} addGoal={this.handleAddGoal} addProgram={this.handleAddProgram} addProject={this.handleAddProject} />
           <div className="content">
             {
 

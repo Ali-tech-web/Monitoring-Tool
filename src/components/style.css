@@ -55,7 +55,7 @@
       height: 100%;
       padding: 21px;
       overflow: scroll;
-      padding-bottom : 10%;
+      padding-bottom : 15%;
 
   }
 
@@ -82,7 +82,7 @@
   #programAccord ul li {
     border-bottom: 1px solid lightgray;
     list-style: none;
-    padding-left: 14%;
+    padding-left: 22%;
     padding-top: 3%;
     padding-bottom: 3%;
     padding-right: 3%;
@@ -101,9 +101,17 @@
 
   .add-new-project-div {
     text-align: left;
-    padding-left: 12%;
+    padding-left: 10.5%;
     color: #438AFE
   }
+
+  .add-new-objective-div {
+    text-align: left;
+    padding-left: 18.5%;
+    color: #438AFE
+  }
+
+
 
   .add-new-goal-div {
     text-align: left;
