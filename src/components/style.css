@@ -82,7 +82,7 @@
   #programAccord ul li {
     border-bottom: 1px solid lightgray;
     list-style: none;
-    padding-left: 22%;
+    /* padding-left: 22%; */
     padding-top: 3%;
     padding-bottom: 3%;
     padding-right: 3%;
@@ -97,27 +97,54 @@
 
   #programAccord ul{
     padding-left: 5px;
+    margin-left: 22%;
+    margin-right: 3%
+  }
+
+  .add-new-project-div-text {
+    display: inline-block;
+    float: right;
+    color: #438AFE
   }
 
   .add-new-project-div {
-    text-align: left;
-    padding-left: 10.5%;
+    display: inline-block;
+    float: right;
     color: #438AFE
   }
 
+  .add-new-objective-div-text {
+    display: inline-block;
+    float: right;
+    color: #438AFE;
+  }
+
+
   .add-new-objective-div {
-    text-align: left;
-    padding-left: 18.5%;
+    display: inline-block;
+    float: right;
     color: #438AFE
   }
+
 
 
 
   .add-new-goal-div {
-    text-align: left;
-    padding-left: 6%;
+    /* text-align: left; */
+    /* padding-left: 6%; */
+    display: inline-block;
+    float: right;
     color: #438AFE
   }
+
+  .add-new-goal-div-text {
+   float:right;
+    display: inline-block;
+    color: #438AFE
+  }
+
+
+
 
   .add-new-project-div:hover {
     color: black
@@ -169,7 +196,7 @@ scrollbar-width: none;  /* Firefox */
 .cut-text { 
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 85%;
+  width: 84%;
   height: 1.2em;
   white-space: nowrap;
   display: inline-block;
@@ -178,6 +205,10 @@ scrollbar-width: none;  /* Firefox */
 
 .accordion>.card>.card-header{
   cursor: pointer;
+}
+
+.card-header{
+  padding: 3% 2% !important
 }
 
 

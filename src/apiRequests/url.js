@@ -22,6 +22,16 @@ export const URL = `http://${HOST_NAME}/${ROUTE}`
 export const saveFormUrl = `${URL}/saveForm`
 
 export const addProgramUrl = `${URL}/addProgram`
-
+// Need to change the URLS
 export const addProjectUrl = `${URL}/addProject`
+
+export const addGoalUrl = `${URL}/addGoal`
+
+export const addObjectiveUrl = `${URL}/addObjective`
+
+export const getAllProgramsUrl = `${URL}/getAllPrograms`
+
+
+
+
 

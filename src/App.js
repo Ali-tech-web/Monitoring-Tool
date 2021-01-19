@@ -8,7 +8,8 @@ import FormEdit from './components/Formio/FormEdit/FormEdit.jsx'
 import FormView from './views/FormView'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './style.css'
-import { saveForm, addNewProgram, addNewProject } from './apiRequests/postRequests'
+import { saveForm, addNewProgram, addNewProject, addNewGoal, addNewObjective } from './apiRequests/postRequests'
+import { getAllPrograms } from './apiRequests/getRequests'
 
 
 
@@ -67,20 +68,14 @@ class App extends React.Component {
         programs = this.state.programs
         var count = this.state.count
         program = res.data.program
-        program.id = res.data.program._id
-        //Need To Persist in database 
-        program.goals = []
-
+        // program.id = res.data.program._id
         // Pid is used Only in the frontend to distinguish programs
         program.pid = count
         count++
-        //cbw
-        // this.setState({ count: count })
-        // adding totalProject (total Projects is used for project id's increment)
-        // program.totalProjects = 0
-        console.log(program)
         programs.push(program)
         this.setState({ programs: programs, count: count })
+        console.log(this.state.programs)
+
       } else {
         console.log('Could Not Insert Program')
       }
@@ -122,11 +117,21 @@ class App extends React.Component {
 
   // }
 
+  componentDidMount() {
+    console.log('Component Did Mount is called')
+    getAllPrograms().then(res => {
+      console.log(res.data)
+      this.setState({ programs: res.data.programs })
+    }).catch(err => {
+      console.log('Error Fetching All Programs')
+    })
+  }
+
 
   handleFormSave(form) {
     var newActiveProg = {}, newActiveProj = {};
     var postData = {
-      programId: this.state.activeProgram.id,
+      programId: this.state.activeProgram._id,
       project: this.state.activeProject,
       form: form
     }
@@ -143,10 +148,10 @@ class App extends React.Component {
 
       let programs = this.state.programs.map(program => {
 
-        if (program.id == this.state.activeProgram.id) {
+        if (program._id == this.state.activeProgram._id) {
           program.projects.forEach((proj) => {
 
-            if (proj.id == project._id) {
+            if (proj._id == project._id) {
               console.log('I am innn')
               console.log(proj)
               console.log(res.data.project)
@@ -182,120 +187,139 @@ class App extends React.Component {
 
 
   handleAddGoal(program, goal) {
-    // goals have a list projects , when api is made then no need this
-    goal.projects = []
-    // when server incorporated Need to egt from server
-    goal.id = program.goals.length.toString();
+    let data = {
+      programId: program._id,
+      goal: goal
+    }
+    // Api call handle saving of new Goal
+    addNewGoal(data).then(res => {
+      if (res.data.success) {
+        let goal = res.data.goal
+        //goal.id = goal._id
 
-    // api call To store goal in the database should be here
-    var programs = this.state.programs.map(prog => {
-      if (prog.id == program.id) {
-        prog.goals.push(goal)
+        var programs = this.state.programs.map(prog => {
+          if (prog._id == program._id) {
+            prog.goals.push(goal)
+          }
+          return prog
+        })
+
+        this.setState({ programs: programs })
+        console.log(this.state.programs)
+      } else {
+        console.log('Api Returned Status False')
       }
-      return prog
-    })
 
-    this.setState({ programs: programs })
-    // console.log('Updated Programs are')
-    console.log(this.state.programs)
+    }
+    )
   }
 
   handleAddProject(program, project, goal) {
-    // send program ID and the project object to server 
     var postData = {
       project: project,
       programId: program._id,
       goal: goal
     }
 
-    console.log(project)
-    console.log(program)
-    console.log(goal)
+    addNewProject(postData).then(res => {
+      if (res.data.success) {
+        project = res.data.project
+        project._id = res.data.project._id
 
-    // Need to update when we receive it from server
-    project.id = goal.projects.length.toString();
-    project.objectives = []
-
-    // logic to add project in a goal
-    let programs = this.state.programs.map(prog => {
-      if (prog.id == program.id) {
-        prog.goals.forEach(gol => {
-          if (gol.id == goal.id) {
-            gol.projects.push(project)
+        // logic to add project in a specific goal of a program
+        let programs = this.state.programs.map(prog => {
+          if (prog._id == program._id) {
+            prog.goals.forEach(gol => {
+              if (gol._id == goal._id) {
+                gol.projects.push(project)
+              }
+            })
           }
+          return prog
         })
+
+        this.setState({ programs: programs })
+
+      } else {
+        console.log('Api Returned Status False')
       }
-      return prog
     })
-
-    this.setState({ programs: programs })
-    // console.log('Updated Programs are')
-    console.log(this.state.programs)
-
-    // addNewProject(postData).then(res => {
-    //   console.log('Received Response')
-    //   console.log(res.data)
-    //   if (res.data.success) {
-
-
-    //     let newProject = {}
-    //     newProject.id = res.data.project._id
-    //     newProject.name = res.data.project.name
-    //     newProject.form = {}
-    //     let programs = this.state.programs.map(prog => {
-    //       if (prog.name === program.name) {
-    //         prog.projects.push(newProject)
-    //         // need to increment total count
-    //         console.log(prog)
-    //         prog.totalProjects++
-
-    //       }
-    //       return prog
-    //     })
-
-    //     this.setState({ programs: programs })
-
-    //   }
-
-    // })
-
   }
 
   handleAddProjectObjective(data) {
     console.log('I am in Add Project objective')
+    var goal = data.goal
     var project = data.project;
     var program = data.program;
-    var objective = {}
-    objective.name = data.objective
-    objective.id = project.objectives.length;
+    console.log(data)
 
-    var goal = data.goal
+    var postData = {
+      project: project,
+      programId: program._id,
+      goal: goal,
+      objective: data.objective
+    }
+    console.log(postData)
 
-    let programs = this.state.programs.map(prog => {
-      if (prog.id == program.id) {
-        prog.goals.forEach(gol => {
-          if (gol.id == goal.id) {
-            gol.projects.forEach(proj => {
-              if (proj.id == project.id) {
-                proj.objectives.push(objective)
-              }
+    addNewObjective(postData).then(res => {
+      var objective = res.data.objective
+      //objective.id = objective._id
 
-            })
-          }
+      let programs = this.state.programs.map(prog => {
+        if (prog._id == program._id) {
+          prog.goals.forEach(gol => {
+            if (gol._id == goal._id) {
+              gol.projects.forEach(proj => {
+                if (proj._id == project._id) {
+                  proj.objectives.push(objective)
+                }
 
-        })
-      }
+              })
+            }
 
-      return prog
+          })
+        }
+
+        return prog
+      })
+
+      this.setState({ programs: programs })
+      console.log(this.state.programs)
+
+    }).catch(err => {
+      console.log('Error Sending Request to Add Objective')
     })
 
 
-    this.setState({ programs: programs })
-    console.log(this.state)
+    // var project = data.project;
+    // var program = data.program;
+    // var objective = {}
+    // objective.name = data.objective
+    // objective.id = project.objectives.length;
+
+    // var goal = data.goal
+
+    // let programs = this.state.programs.map(prog => {
+    //   if (prog.id == program.id) {
+    //     prog.goals.forEach(gol => {
+    //       if (gol.id == goal.id) {
+    //         gol.projects.forEach(proj => {
+    //           if (proj.id == project.id) {
+    //             proj.objectives.push(objective)
+    //           }
+
+    //         })
+    //       }
+
+    //     })
+    //   }
+
+    //   return prog
+    // })
 
 
-
-
+    // this.setState({ programs: programs })
+    // console.log(this.state)
   }
 
   // checks if an object is empty

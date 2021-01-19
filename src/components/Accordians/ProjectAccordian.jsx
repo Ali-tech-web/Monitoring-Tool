@@ -13,7 +13,7 @@ class ProjectAccordian extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isActive: false,
+            isActive: true,
             program: this.props.program,
             showModal: false,
             objectiveInputModal: '',
@@ -24,11 +24,13 @@ class ProjectAccordian extends Component {
         this.handleAddNewObjective = this.handleAddNewObjective.bind(this);
         this.handleAccordianClick = this.handleAccordianClick.bind(this);
         this.getDefaultActiveKey = this.getDefaultActiveKey.bind(this);
+        this.handleCross = this.handleCross.bind(this)
 
     }
 
     handleAccordianClick(event) {
         event.stopPropagation()
+        console.log(' I am in accordion click')
 
         let activeStatus = (this.state.isActive) ? false : true
         this.setState({ isActive: activeStatus })
@@ -46,6 +48,7 @@ class ProjectAccordian extends Component {
     // }
 
     handleObjectiveClick(event, obj) {
+        event.stopPropagation()
         console.log('Clicked An Objective')
         console.log(obj)
     }
@@ -58,6 +61,7 @@ class ProjectAccordian extends Component {
     }
 
     handleAddNewObjective(event) {
+        event.stopPropagation()
         // let program = this.state.program
         // let goal = this.props.goal
         // let project = {}
@@ -86,8 +90,14 @@ class ProjectAccordian extends Component {
 
     }
 
-    handleClose() {
+    handleClose(event) {
+        event.stopPropagation()
         this.setState({ showModal: false })
+    }
+
+    handleCross() {
+        this.setState({ showModal: false })
+
     }
 
     ListItemClass(listItemId) {
@@ -103,10 +113,11 @@ class ProjectAccordian extends Component {
 
 
     render() {
+        console.log('I am in Project Accord')
         return (
             <React.Fragment>
-                <Modal show={this.state.showModal} onHide={() => this.handleClose()}>
-                    <Modal.Header closeButton>
+                <Modal show={this.state.showModal} onHide={this.handleCross}>
+                    <Modal.Header >
                         <Modal.Title>Add Objective</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -114,12 +125,13 @@ class ProjectAccordian extends Component {
                             type="text"
                             className="round-corners"
                             placeholder="Add Objective Title"
-                            onChange={(e) => this.setState({ objectiveInputModal: e.target.value })}
+                            onChange={(e) => { e.stopPropagation(); this.setState({ objectiveInputModal: e.target.value }) }}
+                            onClick={(e) => { e.stopPropagation() }}
 
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleClose()}>
+                        <Button variant="secondary" onClick={(e) => this.handleClose(e)}>
                             Close
                        </Button>
                         <Button variant="primary" onClick={(e) => this.handleAddNewObjective(e)} >
@@ -130,10 +142,10 @@ class ProjectAccordian extends Component {
 
                 {// Accordian
                 }
-                <Accordion id="projectAccord" key="projectAccord" defaultActiveKey="1" style={{}} onClick={(event) => this.handleAccordianClick(event)} >
+                <Accordion id="projectAccord" key="projectAccord" defaultActiveKey="0" style={{}} onClick={(event) => this.handleAccordianClick(event)} >
                     <Card >
                         <Accordion.Toggle as={Card.Header} eventKey="0" style={{
-                            backgroundColor: 'rgba(0, 0, 0, 0.03)'
+                            backgroundColor: 'rgba(0, 0, 0, 0.04)'
                         }} >
                             <div className="cut-text" data-tip={this.props.project.name} >
                                 {'\u00A0'}
@@ -144,23 +156,30 @@ class ProjectAccordian extends Component {
                                 {'\u00A0'}
                                 {'\u00A0'}
                                 {'\u00A0'}
-                                <i className="fas fa-project-diagram" aria-hidden="true" style={{ color: 'black', fontWeight: 'bold' }} ></i>
+                                {
+                                    // <i className="fas fa-project-diagram" aria-hidden="true" style={{ color: 'black', fontWeight: 'bold' }} ></i>
+                                }
 
                                 {'\u00A0'}
                                 {'\u00A0'}
+                                {
+                                    (this.state.isActive) ?
+                                        <div style={{ display: 'inline' }}> <i className="fas fa-angle-down" style={{ margin: '2%' }}></i></div> :
+                                        <div style={{ display: 'inline' }}> <i className="fas fa-angle-right" style={{ margin: '2%' }}></i></div>
+                                }
+
 
                                 {this.props.project.name}
                                 <ReactTooltip place="right" type="dark" effect="float" />
 
-
                             </div>
-
                             {
-                                (this.state.isActive) ?
-                                    <div style={{ display: 'inline' }}> <i className="fas fa-angle-down" style={{ float: 'right', margin: '2%' }}></i></div> :
-                                    <div style={{ display: 'inline' }}> <i className="fas fa-angle-right" style={{ float: 'right', margin: '2%' }}></i></div>
-                            }
+                                (this.props.project.objectives.length > 0) ?
+                                    <div className="add-new-objective-div">
+                                        <a onClick={(event) => this.handleAddNewObjectiveClick(event)} style={{ display: 'inline' }}> <i className="fas fa-plus" aria-hidden="true" ></i></a>
+                                    </div> : ''
 
+                            }
 
 
                         </Accordion.Toggle>
@@ -171,20 +190,30 @@ class ProjectAccordian extends Component {
                                         this.props.project.objectives.map(obj => {
                                             {
                                                 // Concatenating id of project with program id // can be incorporated to with programid
-                                                var listItemId = obj.id.toString() + this.props.project.id.toString()
+                                                var listItemId = obj._id.toString() + this.props.project._id.toString()
 
                                             }
-                                            return (<li key={obj.id} id={listItemId} className={this.ListItemClass(listItemId)} onClick={(event) => this.handleObjectiveClick(event, obj)} >
+                                            return (<li key={obj._id} id={listItemId} className={this.ListItemClass(listItemId)} onClick={(event) => this.handleObjectiveClick(event, obj)} >
 
                                                 <i className="fa fa-object-group" aria-hidden="true" style={{ fontWeight: 'bold' }}></i>  {'\u00A0'} {obj.name}
                                             </li>
                                             )
                                         })
                                     }
+
+
                                 </ul>
-                                <div className="add-new-objective-div">
-                                    <a onClick={(event) => this.handleAddNewObjectiveClick(event)}> <i className="fas fa-plus" aria-hidden="true" ></i> Add Objective</a>
-                                </div>
+
+                                {
+
+                                    (this.props.project.objectives.length == 0) ?
+                                        <div className="add-new-objective-div-text">
+                                            <a onClick={(event) => this.handleAddNewObjectiveClick(event)}> <i className="fas fa-plus" aria-hidden="true" ></i>Add Objective</a>
+                                        </div> : ''
+
+
+                                }
+
 
                             </Card.Body>
                         </Accordion.Collapse>

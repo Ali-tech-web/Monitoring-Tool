@@ -11,7 +11,7 @@ class ProgramAccordian extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isActive: false,
+            isActive: true,
             program: this.props.program,
             showModal: false,
             goalInputModal: '',
@@ -22,6 +22,7 @@ class ProgramAccordian extends Component {
         this.handleAddNewGoal = this.handleAddNewGoal.bind(this);
         this.handleAccordianClick = this.handleAccordianClick.bind(this);
         this.getDefaultActiveKey = this.getDefaultActiveKey.bind(this);
+        this.handleCross = this.handleCross.bind(this)
 
     }
 
@@ -50,6 +51,7 @@ class ProgramAccordian extends Component {
     }
 
     handleAddNewGoal(event) {
+        event.stopPropagation()
         let program = this.state.program
         let goal = {}
         goal.name = this.state.goalInputModal
@@ -57,8 +59,14 @@ class ProgramAccordian extends Component {
         this.setState({ showModal: false })
     }
 
-    handleClose() {
+    handleClose(event) {
+        event.stopPropagation()
         this.setState({ showModal: false })
+    }
+
+    handleCross() {
+        this.setState({ showModal: false })
+
     }
 
     ListItemClass(listItemId) {
@@ -77,8 +85,8 @@ class ProgramAccordian extends Component {
         console.log('I am in Program Accordian')
         return (
             <React.Fragment>
-                <Modal show={this.state.showModal} onHide={() => this.handleClose()}>
-                    <Modal.Header closeButton>
+                <Modal show={this.state.showModal} onHide={this.handleCross}>
+                    <Modal.Header >
                         <Modal.Title>Add Goal</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -86,12 +94,13 @@ class ProgramAccordian extends Component {
                             type="text"
                             className="round-corners"
                             placeholder="Add Goal Title"
-                            onChange={(e) => this.setState({ goalInputModal: e.target.value })}
+                            onChange={(e) => { e.stopPropagation(); this.setState({ goalInputModal: e.target.value }) }}
+                            onClick={(e) => { e.stopPropagation() }}
 
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleClose()}>
+                        <Button variant="secondary" onClick={(e) => this.handleClose(e)}>
                             Close
                        </Button>
                         <Button variant="primary" onClick={(e) => this.handleAddNewGoal(e)} >
@@ -102,21 +111,31 @@ class ProgramAccordian extends Component {
 
                 {// Accordian
                 }
-                <Accordion id="goalAccord" key="goalAccord" style={{ marginBottom: '1%' }} onClick={(event) => this.handleAccordianClick(event)} >
+                <Accordion id="goalAccord" key="goalAccord" defaultActiveKey="0" style={{ marginBottom: '1%' }} onClick={(event) => this.handleAccordianClick(event)} >
                     <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}  >
-                            <i className="fa fa-list" aria-hidden="true" style={{ color: 'black', fontWeight: 'bold' }}></i>
-                            {'\u00A0'}
-                            {'\u00A0'}
-                            {this.props.program.name}
-
+                        <Accordion.Toggle as={Card.Header} eventKey="0" style={{
+                            backgroundColor: 'rgba(0, 0, 0, 0.08)'
+                        }}  >
                             {
-                                (this.state.isActive) ?
-                                    <div style={{ display: 'inline' }}> <i className="fas fa-angle-down" style={{ float: 'right', margin: '2%' }}></i></div> :
-                                    <div style={{ display: 'inline' }}> <i className="fas fa-angle-right" style={{ float: 'right', margin: '2%' }}></i></div>
+                                // <i className="fa fa-list" aria-hidden="true" style={{ color: 'black', fontWeight: 'bold' }}></i>
+
                             }
 
 
+                            {
+                                (this.state.isActive) ?
+                                    <div style={{ display: 'inline' }}> <i className="fas fa-angle-down" style={{ margin: '2%' }}></i></div> :
+                                    <div style={{ display: 'inline' }}> <i className="fas fa-angle-right" style={{ margin: '2%' }}></i></div>
+                            }
+                            {this.props.program.name}
+
+
+                            {
+                                (this.props.program.goals.length > 0) ? <div className="add-new-goal-div">
+                                    <a onClick={(event) => this.handleAddNewGoalClick(event)} style={{ display: 'inline' }}> <i className="fas fa-plus" aria-hidden="true" ></i></a>
+                                </div> : ''
+
+                            }
 
 
                         </Accordion.Toggle>
@@ -125,13 +144,17 @@ class ProgramAccordian extends Component {
 
                                 {
                                     this.props.program.goals.map(goal => {
-                                        return (<GoalAccordian key={goal.id} goal={goal} program={this.props.program} addObjective={this.props.addObjective} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} addProject={this.props.addProject} changeProject={this.props.changeProject} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem} />)
+                                        return (<GoalAccordian key={goal._id} goal={goal} program={this.props.program} addObjective={this.props.addObjective} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} addProject={this.props.addProject} changeProject={this.props.changeProject} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem} />)
                                     })
                                 }
 
-                                <div className="add-new-goal-div">
-                                    <a onClick={(event) => this.handleAddNewGoalClick(event)}> <i className="fas fa-plus" aria-hidden="true" ></i> Add Goal</a>
-                                </div>
+                                {
+                                    (this.props.program.goals.length == 0) ? <div className="add-new-goal-div-text" >
+                                        <a onClick={(event) => this.handleAddNewGoalClick(event)}> <i className="fas fa-plus" aria-hidden="true" ></i> Add Goal</a>
+                                    </div> : ''
+
+                                }
+
 
                             </Card.Body>
                         </Accordion.Collapse>

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { saveFormUrl, addProgramUrl, addProjectUrl } from './url'
+import { saveFormUrl, addProgramUrl, addProjectUrl, addGoalUrl, addObjectiveUrl } from './url'
 
 
 
@@ -23,10 +23,30 @@ export function addNewProgram(program) {
 
 export function addNewProject(data) {
 
-
     return (axios({
         method: 'post',
         url: addProjectUrl,
         data: data
     }))
 }
+
+export function addNewGoal(data) {
+    return (axios({
+        method: 'post',
+        url: addGoalUrl,
+        data: data
+
+    }))
+}
+
+export function addNewObjective(data) {
+    return (axios({
+        method: 'post',
+        url: addObjectiveUrl,
+        data: data
+    }))
+}
+
+
+
+

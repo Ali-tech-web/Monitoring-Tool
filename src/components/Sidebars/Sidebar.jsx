@@ -83,7 +83,7 @@ class Sidebar extends Component {
                                         {
                                             (this.props.programs.length > 0) ? this.props.programs.map(program => {
 
-                                                return <ProgramAccordian key={program.pid} addObjective={this.props.addObjective} program={program} handleChangeActiveProgramListItem={this.handleChangeActiveProgramListItem} activeListProgramId={this.state.activeListProgramId} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject} addGoal={this.props.addGoal} />
+                                                return <ProgramAccordian key={program._id} addObjective={this.props.addObjective} program={program} handleChangeActiveProgramListItem={this.handleChangeActiveProgramListItem} activeListProgramId={this.state.activeListProgramId} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject} addGoal={this.props.addGoal} />
                                             }) : <FirstProgramForm addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} />
                                         }
                                         {
