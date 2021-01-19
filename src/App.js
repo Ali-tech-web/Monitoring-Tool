@@ -118,9 +118,7 @@ class App extends React.Component {
   // }
 
   componentDidMount() {
-    console.log('Component Did Mount is called')
     getAllPrograms().then(res => {
-      console.log(res.data)
       this.setState({ programs: res.data.programs })
     }).catch(err => {
       console.log('Error Fetching All Programs')
