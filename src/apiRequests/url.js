@@ -16,7 +16,7 @@ const HOST_NAME = '51.15.100.165:5030'
 const ROUTE = 'api'
 
 // General URL for Front-end App
-export const URL = `https://${HOST_NAME}/${ROUTE}`
+export const URL = `http://${HOST_NAME}/${ROUTE}`
 
 // URL to get all the apps
 export const saveFormUrl = `${URL}/saveForm`
