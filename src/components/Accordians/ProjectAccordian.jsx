@@ -30,27 +30,25 @@ class ProjectAccordian extends Component {
 
     handleAccordianClick(event) {
         event.stopPropagation()
-        console.log(' I am in accordion click')
-
         let activeStatus = (this.state.isActive) ? false : true
         this.setState({ isActive: activeStatus })
 
-
     }
 
-    // handleProjectClick(event, proj) {
-    //     event.stopPropagation()
-
-    //     this.props.handleChangeActiveProjectListItem(event.target.id)
-
-    //     console.log(event.target.id)
-    //     this.props.changeProject(this.state.program, proj)
-    // }
 
     handleObjectiveClick(event, obj) {
         event.stopPropagation()
-        console.log('Clicked An Objective')
-        console.log(obj)
+        var goal = this.props.goal
+        var project = this.props.project
+        var program = this.props.program
+        var data = {
+            goal: goal,
+            project: project,
+            program: program,
+            objective: obj
+        }
+        this.props.changeObjective(data)
+        //this.props.changeActiveObjective(obj._id)
     }
 
 
@@ -62,23 +60,11 @@ class ProjectAccordian extends Component {
 
     handleAddNewObjective(event) {
         event.stopPropagation()
-        // let program = this.state.program
-        // let goal = this.props.goal
-        // let project = {}
-        // project.name = this.state.objectiveInputModal
-        // this.props.addProject(program, project, goal)
-        // this.setState({ showModal: false })
-        console.log('I am in handle Add New Objective')
+
         let goal = this.props.goal
         let project = this.props.project
         let program = this.props.program
         let objective = this.state.objectiveInputModal
-        console.log('New Objective To be added')
-        console.log(objective)
-
-        console.log(goal)
-        console.log(project)
-        console.log(program)
         var data = {
             program: program,
             goal: goal,
@@ -102,7 +88,7 @@ class ProjectAccordian extends Component {
 
     ListItemClass(listItemId) {
 
-        return ((listItemId === this.props.activeListProjectId) ? 'blue-text-color' : '')
+        return ((listItemId == this.props.activeObjectiveId) ? 'blue-text-color' : '')
 
     }
 
@@ -113,7 +99,7 @@ class ProjectAccordian extends Component {
 
 
     render() {
-        console.log('I am in Project Accord')
+
         return (
             <React.Fragment>
                 <Modal show={this.state.showModal} onHide={this.handleCross}>
@@ -145,7 +131,8 @@ class ProjectAccordian extends Component {
                 <Accordion id="projectAccord" key="projectAccord" defaultActiveKey="0" style={{}} onClick={(event) => this.handleAccordianClick(event)} >
                     <Card >
                         <Accordion.Toggle as={Card.Header} eventKey="0" style={{
-                            backgroundColor: 'rgba(0, 0, 0, 0.04)'
+                            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                            padding: '3% 2%'
                         }} >
                             <div className="cut-text" data-tip={this.props.project.name} >
                                 {'\u00A0'}
@@ -153,9 +140,7 @@ class ProjectAccordian extends Component {
                                 {'\u00A0'}
                                 {'\u00A0'}
                                 {'\u00A0'}
-                                {'\u00A0'}
-                                {'\u00A0'}
-                                {'\u00A0'}
+
                                 {
                                     // <i className="fas fa-project-diagram" aria-hidden="true" style={{ color: 'black', fontWeight: 'bold' }} ></i>
                                 }
@@ -167,6 +152,9 @@ class ProjectAccordian extends Component {
                                         <div style={{ display: 'inline' }}> <i className="fas fa-angle-down" style={{ margin: '2%' }}></i></div> :
                                         <div style={{ display: 'inline' }}> <i className="fas fa-angle-right" style={{ margin: '2%' }}></i></div>
                                 }
+
+                                {'\u00A0'}
+                                {'\u00A0'}
 
 
                                 {this.props.project.name}
@@ -190,10 +178,10 @@ class ProjectAccordian extends Component {
                                         this.props.project.objectives.map(obj => {
                                             {
                                                 // Concatenating id of project with program id // can be incorporated to with programid
-                                                var listItemId = obj._id.toString() + this.props.project._id.toString()
+                                                // var listItemId = obj._id.toString() + this.props.project._id.toString()
 
                                             }
-                                            return (<li key={obj._id} id={listItemId} className={this.ListItemClass(listItemId)} onClick={(event) => this.handleObjectiveClick(event, obj)} >
+                                            return (<li key={obj._id} id={obj._id} className={this.ListItemClass(obj._id)} onClick={(event) => this.handleObjectiveClick(event, obj)} >
 
                                                 <i className="fa fa-object-group" aria-hidden="true" style={{ fontWeight: 'bold' }}></i>  {'\u00A0'} {obj.name}
                                             </li>

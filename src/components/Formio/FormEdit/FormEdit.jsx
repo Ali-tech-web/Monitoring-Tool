@@ -65,7 +65,7 @@ class FrmEdit extends Component {
             return <Form form={this.state.form} />
 
         } else {
-            console.log('I am in form edit')
+
             let form;
             if (!(this.isEmpty(this.props.activeProject.form))) {
                 form = this.props.activeProject.form

@@ -18,6 +18,7 @@ class GoalAccordian extends Component {
             program: this.props.program,
             showModal: false,
             projectInputModal: '',
+            activeObjectiveId: ''
 
         }
 
@@ -26,6 +27,7 @@ class GoalAccordian extends Component {
         this.handleAccordianClick = this.handleAccordianClick.bind(this);
         this.getDefaultActiveKey = this.getDefaultActiveKey.bind(this);
         this.handleCross = this.handleCross.bind(this)
+        this.handleChangeActiveObjective = this.handleChangeActiveObjective.bind(this)
 
     }
 
@@ -35,8 +37,9 @@ class GoalAccordian extends Component {
         let activeStatus = (this.state.isActive) ? false : true
         this.setState({ isActive: activeStatus })
 
-
     }
+
+
 
     handleProjectClick(event, proj) {
         event.stopPropagation()
@@ -62,6 +65,13 @@ class GoalAccordian extends Component {
 
         this.props.addProject(program, project, goal)
         this.setState({ showModal: false })
+
+    }
+
+    handleChangeActiveObjective(id) {
+        console.log('I am in change Active Objective : about to set the state')
+        console.log(id)
+        this.setState({ activeObjectiveId: id })
 
     }
 
@@ -120,13 +130,14 @@ class GoalAccordian extends Component {
                 <Accordion id="programAccord" key="ProgramAccord" defaultActiveKey={this.getDefaultActiveKey(this.props.program.pid)} defaultActiveKey="0" style={{}} onClick={(event) => this.handleAccordianClick(event)} >
                     <Card >
                         <Accordion.Toggle as={Card.Header} eventKey="0" style={{
-                            backgroundColor: 'rgba(0, 0, 0, 0.06)'
+                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                            padding: '3% 2%'
                         }} >
                             <div className="cut-text" data-tip={this.props.goal.name} >
                                 {'\u00A0'}
                                 {'\u00A0'}
                                 {'\u00A0'}
-                                {'\u00A0'}
+
                                 {
                                     (this.state.isActive) ?
                                         <div style={{ display: 'inline' }}> <i className="fas fa-angle-down" style={{ margin: '2%' }}></i></div> :
@@ -173,7 +184,8 @@ class GoalAccordian extends Component {
                                         //     var listItemId = proj.id.toString() + this.props.program.id.toString()
 
                                         // }
-                                        return (<ProjectAccordian key={proj._id} program={this.props.program} project={proj} goal={this.props.goal} addObjective={this.props.addObjective} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem} changeProject={this.props.changeProject} addProject={this.props.addProject} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} />)
+                                        return (<ProjectAccordian key={proj._id} program={this.props.program} project={proj} goal={this.props.goal} addObjective={this.props.addObjective} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem} changeProject={this.props.changeProject} addProject={this.props.addProject}
+                                            activeObjectiveId={this.props.activeObjectiveId} changeActiveObjective={this.handleChangeActiveObjective} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} changeObjective={this.props.changeObjective} />)
                                     })
                                 }
 

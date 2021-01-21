@@ -11,7 +11,7 @@ class ProgramAccordian extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isActive: true,
+            isActive: false,
             program: this.props.program,
             showModal: false,
             goalInputModal: '',
@@ -82,7 +82,7 @@ class ProgramAccordian extends Component {
 
 
     render() {
-        console.log('I am in Program Accordian')
+
         return (
             <React.Fragment>
                 <Modal show={this.state.showModal} onHide={this.handleCross}>
@@ -111,10 +111,11 @@ class ProgramAccordian extends Component {
 
                 {// Accordian
                 }
-                <Accordion id="goalAccord" key="goalAccord" defaultActiveKey="0" style={{ marginBottom: '1%' }} onClick={(event) => this.handleAccordianClick(event)} >
+                <Accordion id="goalAccord" key="goalAccord" defaultActiveKey="1" style={{ marginBottom: '1%' }} onClick={(event) => this.handleAccordianClick(event)} >
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="0" style={{
-                            backgroundColor: 'rgba(0, 0, 0, 0.08)'
+                            backgroundColor: 'rgba(0, 0, 0, 0.15)',
+                            padding: '3% 2%'
                         }}  >
                             {
                                 // <i className="fa fa-list" aria-hidden="true" style={{ color: 'black', fontWeight: 'bold' }}></i>
@@ -144,7 +145,8 @@ class ProgramAccordian extends Component {
 
                                 {
                                     this.props.program.goals.map(goal => {
-                                        return (<GoalAccordian key={goal._id} goal={goal} program={this.props.program} addObjective={this.props.addObjective} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} addProject={this.props.addProject} changeProject={this.props.changeProject} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem} />)
+                                        return (<GoalAccordian key={goal._id} goal={goal} program={this.props.program} activeObjectiveId={this.props.activeObjectiveId} addObjective={this.props.addObjective} activeListProjectId={this.props.activeListProjectId} activeListProgramId={this.props.activeListProgramId} addProject={this.props.addProject} changeProject={this.props.changeProject} handleChangeActiveProjectListItem={this.props.handleChangeActiveProjectListItem}
+                                            changeObjective={this.props.changeObjective} />)
                                     })
                                 }
 

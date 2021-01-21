@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-bootstrap'
-import KpiAccordian from '../components/Accordians/KpiAccordian'
-import AddFirstKpiView from './AddFirstKpi'
-import './style.css'
-
-
-class MainView extends Component {
-
+import { Button, Modal } from 'react-bootstrap';
+class AddFirstKpi extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isActive: false,
-            kpiInputModal: '',
-            showModal: false
+            showModal: false,
+            kpiInputModal: ''
         }
 
-        this.handleAccordianClick = this.handleAccordianClick.bind(this);
         this.handleAddNewKpi = this.handleAddNewKpi.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.handleCross = this.handleCross.bind(this)
@@ -47,17 +39,9 @@ class MainView extends Component {
 
     }
 
-    handleAccordianClick(event) {
-        event.stopPropagation()
-        let activeStatus = (this.state.isActive) ? false : true
-        this.setState({ isActive: activeStatus })
-    }
-
     render() {
-        var objective = this.props.data.objective
         return (
             <React.Fragment>
-
                 <Modal show={this.state.showModal} onHide={this.handleCross}>
                     <Modal.Header >
                         <Modal.Title>Add KPI</Modal.Title>
@@ -75,33 +59,22 @@ class MainView extends Component {
                     <Modal.Footer>
                         <Button variant="secondary" onClick={(e) => this.handleClose(e)}>
                             Close
-                </Button>
+                        </Button>
                         <Button variant="primary" onClick={(e) => this.handleAddNewKpi(e)} >
                             Add
-                </Button>
+                        </Button>
                     </Modal.Footer>
                 </Modal>
 
-                {
+                <div className="add-first-kpi-div">
+                    <div className="add-first-kpi" style={{ textAlign: 'center' }}><a style={{ display: 'inline' }}> <i className="fas fa-plus add-first-kpi" aria-hidden="true" onClick={(event) => this.handleAddNewKpiClick(event)}></i></a> </div>
+                    <div className="add-first-kpi-text" style={{ textAlign: 'center' }}>Add your first Key Performance Index (KPI)</div>
+                </div>
 
-                    (objective.kpis.length == 0) ? <AddFirstKpiView data={this.props.data} addKpi={this.props.addKpi} /> :
-
-                        <div>
-                            <div className='kpi-header'>Key Performance Indexes (KPIS)</div>
-                            <div className='add-kpi-div' ><button type="button" className="btn btn-primary border-3 add-kpi-button" onClick={(e) => this.handleAddNewKpiClick(e)} style={{ borderRadius: '10px' }} > <i className="fas fa-plus" aria-hidden="true" ></i> New Kpi</button> </div>
-                            {
-                                objective.kpis.map(kpi => {
-                                    return (<KpiAccordian key={kpi._id} data={this.props.data} kpi={kpi} saveKpiForm={this.props.saveKpiForm} />)
-                                })
-
-                            }
-                        </div>
-
-                }
 
             </React.Fragment>
         );
     }
 }
 
-export default MainView;
+export default AddFirstKpi;

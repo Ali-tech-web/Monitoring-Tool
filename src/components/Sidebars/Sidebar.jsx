@@ -53,8 +53,8 @@ class Sidebar extends Component {
     }
 
     handleChangeActiveProgramListItem(ListProgramId) {
-        console.log('I am in Handle Change Prog')
-        console.log(ListProgramId)
+
+
         this.setState({ activeListProgramId: ListProgramId })
     }
 
@@ -72,7 +72,7 @@ class Sidebar extends Component {
                             <Card >
 
                                 <div>
-                                    <Accordion.Toggle as={Card.Header} eventKey="0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.06)' }}>
+                                    <Accordion.Toggle as={Card.Header} eventKey="0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)', fontWeight: 'bold' }}>
                                         <i className="fab fa-windows" style={{ color: 'black' }}></i>  {'\u00A0'} Programs
                                      </Accordion.Toggle>
                                 </div>
@@ -83,7 +83,8 @@ class Sidebar extends Component {
                                         {
                                             (this.props.programs.length > 0) ? this.props.programs.map(program => {
 
-                                                return <ProgramAccordian key={program._id} addObjective={this.props.addObjective} program={program} handleChangeActiveProgramListItem={this.handleChangeActiveProgramListItem} activeListProgramId={this.state.activeListProgramId} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject} addGoal={this.props.addGoal} />
+                                                return <ProgramAccordian key={program._id} addObjective={this.props.addObjective} program={program} handleChangeActiveProgramListItem={this.handleChangeActiveProgramListItem} activeListProgramId={this.state.activeListProgramId} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject}
+                                                    activeObjectiveId={this.props.activeObjectiveId} addGoal={this.props.addGoal} changeObjective={this.props.changeObjective} />
                                             }) : <FirstProgramForm addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} />
                                         }
                                         {

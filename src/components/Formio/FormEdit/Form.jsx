@@ -19,8 +19,8 @@ class Frm extends Component {
 
 
     onSubmit(filledForm) {
-        console.log('I am in On submit Event')
-        console.log(filledForm)
+
+
         // Send a POST request
         // axios({
         //     method: 'post',

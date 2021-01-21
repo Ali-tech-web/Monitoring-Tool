@@ -11,7 +11,7 @@
 // // URL to get Api Key
 // export const getApiKeyUrl = `${URL}/authenticate`
 
-const HOST_NAME = 'localhost:5030'
+const HOST_NAME = '51.15.100.165:5030'
 // const HOST_NAME = 'localhost:3001'
 const ROUTE = 'api'
 
@@ -30,6 +30,10 @@ export const addGoalUrl = `${URL}/addGoal`
 export const addObjectiveUrl = `${URL}/addObjective`
 
 export const getAllProgramsUrl = `${URL}/getAllPrograms`
+
+export const addKpiUrl = `${URL}/addKpi`
+
+export const addKpiFormDefinitionUrl = `${URL}/addKpiFormDefinition`
 
 
 
