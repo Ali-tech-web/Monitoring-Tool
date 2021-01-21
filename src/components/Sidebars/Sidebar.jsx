@@ -68,7 +68,7 @@ class Sidebar extends Component {
                         <a href="#evaluation" className="col-4 text-center">Evaluation</a>
                     </div>
                     <div className="sidebar-content-area hide-scrollbar">
-                        <Accordion defaultActiveKey="0">
+                        <Accordion defaultActiveKey="0" >
                             <Card >
 
                                 <div>
@@ -78,7 +78,7 @@ class Sidebar extends Component {
                                 </div>
 
                                 <Accordion.Collapse eventKey="0">
-                                    <Card.Body style={{ padding: '1%', paddingTop: '0%' }}>
+                                    <Card.Body style={{ padding: '0%', paddingTop: '0%' }}>
 
                                         {
                                             (this.props.programs.length > 0) ? this.props.programs.map(program => {

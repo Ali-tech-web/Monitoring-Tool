@@ -111,7 +111,7 @@ class ProgramAccordian extends Component {
 
                 {// Accordian
                 }
-                <Accordion id="goalAccord" key="goalAccord" defaultActiveKey="1" style={{ marginBottom: '1%' }} onClick={(event) => this.handleAccordianClick(event)} >
+                <Accordion id="goalAccord" key="goalAccord" defaultActiveKey="1" style={{}} onClick={(event) => this.handleAccordianClick(event)} >
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="0" style={{
                             backgroundColor: 'rgba(0, 0, 0, 0.15)',

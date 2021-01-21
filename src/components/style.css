@@ -205,7 +205,7 @@ scrollbar-width: none;  /* Firefox */
 
 .accordion>.card>.card-header{
   cursor: pointer;
-  padding: 1% 4% !important;
+  padding: 0% 4% !important;
 }
 
 .card-header{
