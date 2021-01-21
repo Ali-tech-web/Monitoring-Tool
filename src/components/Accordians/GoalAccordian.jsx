@@ -175,7 +175,7 @@ class GoalAccordian extends Component {
 
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
-                            <Card.Body style={{ padding: '1%' }}>
+                            <Card.Body style={{ padding: '0%', paddingTop: '0%' }}>
 
                                 {
                                     this.props.goal.projects.map(proj => {

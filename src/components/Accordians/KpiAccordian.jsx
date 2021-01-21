@@ -79,7 +79,7 @@ class KpiAccordian extends Component {
 
                 <Accordion defaultActiveKey="1" style={{ marginBottom: '1%' }}>
                     <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.06)' }} onClick={(event) => this.handleAccordianClick(event)}>
+                        <Accordion.Toggle as={Card.Header} eventKey="0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.06)' }} className='kpi-padding' onClick={(event) => this.handleAccordianClick(event)}>
                             <div style={{ textAlign: 'left', fontWeight: '500' }}>
                                 <i className="fab fa-wpforms" style={{ color: 'black', fontWeight: '500' }}></i>
                                 {'\u00A0'}
