@@ -73,7 +73,7 @@ class App extends React.Component {
 
   handleObjectiveChange(data) {
     console.log('I am in App.js : handle Objective change')
-    console.log(data.objective._id)
+    console.log(this.state.programs)
     let mainContentView;
     mainContentView = <MainView data={data} addKpi={this.handleAddKpi} saveKpiForm={this.handleKpiFormSave} />
     this.setState({ mainContent: mainContentView, activeObjectiveId: data.objective._id })
@@ -318,20 +318,9 @@ class App extends React.Component {
 
     addNewKpi(payload).then(res => {
       if (res.data.success) {
-        //   getAllPrograms().then(response => {
-        //     console.log('I am about to display all programs')
-        //     console.log(response.data.programs)
-
-        //     let mainContentView = <MainView program={data.program} project={data.project} goal={data.goal} objective={updatedObjective} addKpi={this.handleAddKpi} />
-        //     this.setState({ programs: response.data.programs, mainContent: mainContentView })
-        //   }).catch(err => {
-        //     console.log('Error Fetching All Programs')
-        //   })
-        // } else {
-        //   console.log('Api Returned Success False')
-        // }
         var updatedObjective
         var newKpi = res.data.kpi
+        console.log(newKpi)
         let programs = this.state.programs.map(prog => {
           if (prog._id == data.program._id) {
             prog.goals.forEach(gol => {

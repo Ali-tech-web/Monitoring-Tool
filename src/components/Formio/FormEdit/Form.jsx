@@ -21,24 +21,6 @@ class Frm extends Component {
     onSubmit(filledForm) {
 
 
-        // Send a POST request
-        // axios({
-        //     method: 'post',
-        //     url: 'https://api.appilizer.com/api/formSubmission',
-        //     data: filledForm
-        // })
-        //     .then(res => {
-        //         console.log('Response Received')
-        //         console.log(res.data.Response)
-        //         this.setState({
-        //             redirect: true,
-        //             submission: res.data.Response
-        //         })
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //     })
-
         this.setState({
 
             submission: filledForm
