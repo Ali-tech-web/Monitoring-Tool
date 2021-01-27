@@ -64,7 +64,7 @@ class Sidebar extends Component {
                 <div className="sidebar">
                     <div className='row' style={{ marginTop: '8%' }}>
                         <a className="active col-4 text-center" href="#planning">Planning</a>
-                        <a href="#education" className="col-4 text-center">Execution</a>
+                        <a href="#execution" className="col-4 text-center">Execution</a>
                         <a href="#evaluation" className="col-4 text-center">Evaluation</a>
                     </div>
                     <div className="sidebar-content-area hide-scrollbar">
