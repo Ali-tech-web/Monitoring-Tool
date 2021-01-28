@@ -2,7 +2,9 @@
 import Navbar from './components/Navbars/SimpleNav.jsx'
 import Sidebar from './components/Sidebars/Sidebar.jsx'
 import MainView from './views/Mainview.jsx'
+import EvalMainview from './views/EvalMainview.jsx'
 import React from 'react';
+import $ from 'jquery';
 import axios from "axios";
 import FormEdit from './components/Formio/FormEdit/FormEdit.jsx'
 import FormView from './views/FormView'
@@ -23,13 +25,17 @@ class App extends React.Component {
       programs: [],
       activeProject: {},
       activeProgram: {},
+      activeObjective: {},
+      activeGoal: {},
       count: 0,
       mainContent: '',
-      activeObjectiveId: ''
+      activeObjectiveId: '',
+      activePhase: 'planning' //if active phase is 'planning', it means planning, 'execution' = execution, evaluation = Evluation
     };
+
     this.handleAddProgram = this.handleAddProgram.bind(this)
     this.handleAddProject = this.handleAddProject.bind(this)
-    this.handleProjectChange = this.handleProjectChange.bind(this)
+    // this.handleProjectChange = this.handleProjectChange.bind(this)
     // this.handleFormSave = this.handleFormSave.bind(this)
     // this.handleUpdateForm = this.handleUpdateForm.bind(this)
     this.handleAddGoal = this.handleAddGoal.bind(this)
@@ -37,6 +43,7 @@ class App extends React.Component {
     this.handleObjectiveChange = this.handleObjectiveChange.bind(this)
     this.handleAddKpi = this.handleAddKpi.bind(this)
     this.handleKpiFormSave = this.handleKpiFormSave.bind(this)
+    this.handlePhaseChange = this.handlePhaseChange.bind(this)
     //this.handleChangeActiveObjective = this.handleChangeActiveObjective.bind(this)
 
   }
@@ -47,45 +54,39 @@ class App extends React.Component {
     }).catch(err => {
       console.log('Error Fetching All Programs')
     })
+    // binding click listner on phase change
+    $(document).ready(function () {
+      $('.sidebar .row a').click(function (e) {
+
+        $('.sidebar .row a.active').removeClass('active');
+        var $current = $(this)
+        $current.addClass('active');
+        e.preventDefault();
+      });
+    });
   }
 
-
-  // {pid:1 ,name : 'Microsoft IT Classes',projects: [{id:1, name:"Machine Learning"},{id:2, name: "Web Development"}], isActive: false},
-  //                {pid:2 ,name : 'Skills for 2020',projects: [{id:1, name:"CNC Machine Training"},{id:2, name: "Stitching"}], isActive: false}
-
-  handleProjectChange(program, project) {
-
-    let mainContentView;
-    if (!(this.isEmpty(project))) {
-
-      if (this.isEmpty(project.form)) {
-
-        mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
-      } else {
-
-        mainContentView = <FormView activeProgram={program} activeProject={project} updateForm={this.handleUpdateForm} />
-      }
-
-    }
-
-    this.setState({ activeProject: project, activeProgram: program, mainContent: mainContentView })
-  }
 
   handleObjectiveChange(data) {
-    console.log('I am in App.js : handle Objective change')
+    var project = data.project;
+    var program = data.program;
+    var goal = data.goal;
+    var objective = data.objective;
+    var phase = this.state.activePhase
     console.log(this.state.programs)
     let mainContentView;
-    mainContentView = <MainView data={data} addKpi={this.handleAddKpi} saveKpiForm={this.handleKpiFormSave} />
-    this.setState({ mainContent: mainContentView, activeObjectiveId: data.objective._id })
+    if (phase == 'planning') {
+      mainContentView = <MainView data={data} addKpi={this.handleAddKpi} saveKpiForm={this.handleKpiFormSave} />
+    } else if (phase == 'evaluation') {
+      mainContentView = <EvalMainview data={data} />
+    } else {
+      mainContentView = ''
+    }
+
+    this.setState({ mainContent: mainContentView, activeObjectiveId: data.objective._id, activeProject: project, activeProgram: program, activeGoal: goal, activeObjective: objective })
   }
 
 
-  // handleChangeActiveObjective(id) {
-  //   console.log('I am in change Active Objective : about to set the state')
-  //   console.log(id)
-  //   this.setState({ activeObjectiveId: id })
-
-  // }
 
   handleAddProgram(program) {
 
@@ -110,96 +111,6 @@ class App extends React.Component {
 
   }
 
-  // handleFormSave(form) {
-  //   var newActiveProg = {}, newActiveProj = {};
-  //   let programs = this.state.programs.map(program => {
-  //     if (program.name === this.state.activeProgram.name) {
-  //       program.projects.forEach((proj) => {
-  //         if (proj.name === this.state.activeProject.name) {
-  //           proj.form = form
-  //           newActiveProg = program;
-  //           newActiveProj = proj
-  //         }
-  //       }
-  //       )
-  //     }
-
-  //     return program
-  //   })
-
-  //   saveForm(newActiveProg).then(res => {
-  //     // Need To send to the server
-  //     console.log('I am about to get the response')
-  //     console.log(res.data)
-  //     let mainContentView;
-  //     mainContentView = <FormView activeProgram={newActiveProg} activeProject={newActiveProj} updateForm={this.handleUpdateForm} />
-  //     this.setState({ programs: programs, activeProject: newActiveProj, activeProgram: newActiveProg, mainContent: mainContentView })
-
-  //   })
-  //     .catch(err => {
-  //       console.log(err)
-  //     })
-
-  // }
-
-
-
-  // handleFormSave(form) {
-  //   var newActiveProg = {}, newActiveProj = {};
-  //   var postData = {
-  //     programId: this.state.activeProgram._id,
-  //     project: this.state.activeProject,
-  //     form: form
-  //   }
-  //   saveForm(postData).then(res => {
-  //     // Need To send to the server
-  //     console.log('I am about to get the response : handleForm Save')
-  //     console.log(res.data)
-  //     console.log('Active Proj')
-  //     console.log(this.state.activeProject)
-  //     console.log('Active Program')
-  //     console.log(this.state.activeProgram)
-  //     let project = res.data.project
-
-
-  //     let programs = this.state.programs.map(program => {
-
-  //       if (program._id == this.state.activeProgram._id) {
-  //         program.projects.forEach((proj) => {
-
-  //           if (proj._id == project._id) {
-  //             console.log('I am innn')
-  //             console.log(proj)
-  //             console.log(res.data.project)
-  //             proj.form = form
-  //             newActiveProg = program;
-  //             newActiveProj = proj
-  //           }
-  //         }
-  //         )
-  //       }
-
-  //       return program
-  //     })
-
-  //     let mainContentView;
-  //     mainContentView = <FormView activeProgram={newActiveProg} activeProject={newActiveProj} updateForm={this.handleUpdateForm} />
-  //     this.setState({ programs: programs, activeProject: newActiveProj, activeProgram: newActiveProg, mainContent: mainContentView })
-
-  //   })
-  //     .catch(err => {
-  //       console.log(err)
-  //     })
-  // }
-
-
-  // handleUpdateForm(program, project) {
-  //   /// might be the need to update the active state
-  //   let mainContentView = <FormEdit activeProgram={program} activeProject={project} saveForm={this.handleFormSave} />;
-  //   this.setState({ mainContent: mainContentView })
-
-  //   console.log(this.state)
-  // }
 
 
   handleAddGoal(program, goal) {
@@ -381,7 +292,6 @@ class App extends React.Component {
               if (gol._id == data.goal._id) {
                 gol.projects.forEach(proj => {
                   if (proj._id == data.project._id) {
-                    //proj.objectives.push(objective)
                     proj.objectives.forEach(obj => {
                       if (obj._id == data.objective._id) {
                         obj.kpis.forEach(kpi => {
@@ -390,7 +300,7 @@ class App extends React.Component {
                             updatedObjective = obj
                           }
                         })
-                        //updatedObjective = obj
+
                       }
                     })
                   }
@@ -436,18 +346,61 @@ class App extends React.Component {
     return true;
   }
 
+  isAnyEmpty(data) {
+    if (this.isEmpty(data.program) || this.isEmpty(data.project) || this.isEmpty(data.goal) || this.isEmpty(data.objective)) {
+      return true
+    }
+    return false
+  }
+
+  handlePhaseChange(event) {
+    event.stopPropagation()
+    var phase = event.target.id
+    /// CHANGE THE Main View
+    let mainContentView;
+    let data = {
+      program: this.state.activeProgram,
+      project: this.state.activeProject,
+      goal: this.state.activeGoal,
+      objective: this.state.activeObjective
+    }
+
+    if (this.isAnyEmpty(data)) {
+      mainContentView = ''
+    }
+    else if (phase == 'planning') {
+      mainContentView = <MainView data={data} addKpi={this.handleAddKpi} saveKpiForm={this.handleKpiFormSave} />
+
+    } else if (phase == 'evaluation') {
+      mainContentView = <EvalMainview data={data} />
+
+    } else {
+
+    }
+
+    this.setState({ mainContent: mainContentView, activePhase: phase })
+
+  }
+
   render() {
 
     return (
       <React.Fragment>
         <Navbar />
         <div>
-          <Sidebar programs={this.state.programs} activeObjectiveId={this.state.activeObjectiveId} addObjective={this.handleAddProjectObjective} changeProject={this.handleProjectChange} addGoal={this.handleAddGoal} addProgram={this.handleAddProgram} addProject={this.handleAddProject} changeObjective={this.handleObjectiveChange} />
+          <div className="sidebar">
+            <div className='row' style={{ marginTop: '8%' }}>
+              <a id="planning" href="#planning" className="active col-4 text-center" onClick={(e) => this.handlePhaseChange(e)}>Planning</a>
+              <a id="execution" href="#execution" className="col-4 text-center" onClick={(e) => this.handlePhaseChange(e)}>Execution</a>
+              <a id="evaluation" href="#evaluation" className="col-4 text-center" onClick={(e) => this.handlePhaseChange(e)}>Evaluation</a>
+
+            </div>
+            <Sidebar programs={this.state.programs} activeObjectiveId={this.state.activeObjectiveId} addObjective={this.handleAddProjectObjective} changeProject={this.handleProjectChange} addGoal={this.handleAddGoal} addProgram={this.handleAddProgram} addProject={this.handleAddProject} changeObjective={this.handleObjectiveChange} />
+          </div>
           <div className="content">
             {
 
               this.state.mainContent
-              // mainContent
 
             }
           </div>

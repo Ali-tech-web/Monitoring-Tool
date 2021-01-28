@@ -61,46 +61,42 @@ class Sidebar extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="sidebar">
-                    <div className='row' style={{ marginTop: '8%' }}>
-                        <a className="active col-4 text-center" href="#planning">Planning</a>
-                        <a href="#execution" className="col-4 text-center">Execution</a>
-                        <a href="#evaluation" className="col-4 text-center">Evaluation</a>
-                    </div>
-                    <div className="sidebar-content-area hide-scrollbar">
-                        <Accordion defaultActiveKey="0" >
-                            <Card >
 
-                                <div>
-                                    <Accordion.Toggle as={Card.Header} eventKey="0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)', fontWeight: 'bold' }}>
-                                        <i className="fab fa-windows" style={{ color: 'black' }}></i>  {'\u00A0'} Programs
+
+                <div className="sidebar-content-area hide-scrollbar">
+                    <Accordion defaultActiveKey="0" >
+                        <Card >
+
+                            <div>
+                                <Accordion.Toggle as={Card.Header} eventKey="0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)', fontWeight: 'bold' }}>
+                                    <i className="fab fa-windows" style={{ color: 'black' }}></i>  {'\u00A0'} Programs
                                      </Accordion.Toggle>
-                                </div>
+                            </div>
 
-                                <Accordion.Collapse eventKey="0">
-                                    <Card.Body style={{ padding: '0%', paddingTop: '0%' }}>
+                            <Accordion.Collapse eventKey="0">
+                                <Card.Body style={{ padding: '0%', paddingTop: '0%' }}>
 
-                                        {
-                                            (this.props.programs.length > 0) ? this.props.programs.map(program => {
+                                    {
+                                        (this.props.programs.length > 0) ? this.props.programs.map(program => {
 
-                                                return <ProgramAccordian key={program._id} addObjective={this.props.addObjective} program={program} handleChangeActiveProgramListItem={this.handleChangeActiveProgramListItem} activeListProgramId={this.state.activeListProgramId} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject}
-                                                    activeObjectiveId={this.props.activeObjectiveId} addGoal={this.props.addGoal} changeObjective={this.props.changeObjective} />
-                                            }) : <FirstProgramForm addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} />
-                                        }
-                                        {
-                                            (this.props.programs.length > 0) ? <div className='add-new-program-link '>
-                                                <a id='addNewProgramLink' className={this.getLinkDisplayClass()} style={{ fontWeight: 'normal' }} onClick={() => this.showAddNewProgramForm()}><i className="fa fa-plus" aria-hidden="true" ></i> New Program</a>
-                                                <div className={this.getFormDisplayClass()}> <FirstProgramForm id='addProgramForm' addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} /></div>
-                                            </div> : ''
+                                            return <ProgramAccordian key={program._id} addObjective={this.props.addObjective} program={program} handleChangeActiveProgramListItem={this.handleChangeActiveProgramListItem} activeListProgramId={this.state.activeListProgramId} handleChangeActiveProjectListItem={this.handleChangeActiveProjectListItem} activeListProjectId={this.state.activeListProjectId} changeProject={this.props.changeProject} addProject={this.props.addProject}
+                                                activeObjectiveId={this.props.activeObjectiveId} addGoal={this.props.addGoal} changeObjective={this.props.changeObjective} />
+                                        }) : <FirstProgramForm addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} />
+                                    }
+                                    {
+                                        (this.props.programs.length > 0) ? <div className='add-new-program-link '>
+                                            <a id='addNewProgramLink' className={this.getLinkDisplayClass()} style={{ fontWeight: 'normal' }} onClick={() => this.showAddNewProgramForm()}><i className="fa fa-plus" aria-hidden="true" ></i> New Program</a>
+                                            <div className={this.getFormDisplayClass()}> <FirstProgramForm id='addProgramForm' addProgram={this.props.addProgram} hideAddProgramForm={this.hideAddProgramForm} /></div>
+                                        </div> : ''
 
-                                        }
+                                    }
 
-                                    </Card.Body>
-                                </Accordion.Collapse>
-                            </Card>
-                        </Accordion>
-                    </div>
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
                 </div>
+
 
 
             </React.Fragment>
