@@ -11,6 +11,7 @@
 // // URL to get Api Key
 // export const getApiKeyUrl = `${URL}/authenticate`
 
+
 const HOST_NAME = '51.15.100.165:5030'
 // const HOST_NAME = 'localhost:5030'
 const ROUTE = 'api'
