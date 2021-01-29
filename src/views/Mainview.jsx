@@ -87,7 +87,7 @@ class MainView extends Component {
                     (objective.kpis.length == 0) ? <AddFirstKpiView data={this.props.data} addKpi={this.props.addKpi} /> :
 
                         <div>
-                            <div className='kpi-header'>Key Performance Indexes (KPIS)</div>
+                            <div className='kpi-header'>Key Performance Indicators (KPIS)</div>
                             <div className='add-kpi-div' ><button type="button" className="btn btn-primary border-3 add-kpi-button" onClick={(e) => this.handleAddNewKpiClick(e)} style={{ borderRadius: '10px' }} > <i className="fas fa-plus" aria-hidden="true" ></i> New Kpi</button> </div>
                             {
                                 objective.kpis.map(kpi => {

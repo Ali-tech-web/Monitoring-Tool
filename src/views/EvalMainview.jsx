@@ -34,7 +34,7 @@ class EvalMainview extends Component {
                     (objective.kpis.length == 0) ? <NoKpiView /> :
 
                         <div>
-                            <div className='kpi-header' style={{ marginBottom: '4%' }}>Key Performance Indexes (KPIS)</div>
+                            <div className='kpi-header' style={{ marginBottom: '4%' }}>Key Performance Indicators (KPIS)</div>
                             {
                                 objective.kpis.map(kpi => {
                                     return (<EvalKpiAccordian key={kpi._id} data={this.props.data} kpi={kpi} />)
