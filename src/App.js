@@ -10,7 +10,7 @@ import FormEdit from './components/Formio/FormEdit/FormEdit.jsx'
 import FormView from './views/FormView'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './style.css'
-import { saveForm, addNewProgram, addNewProject, addNewGoal, addNewObjective, addNewKpi, saveKpiFormDefinition } from './apiRequests/postRequests'
+import { saveForm, addNewProgram, addNewProject, addNewGoal, addNewObjective, addNewKpi, saveKpiFormDefinition, getLatestObjective } from './apiRequests/postRequests'
 import { getAllPrograms } from './apiRequests/getRequests'
 
 
@@ -355,31 +355,51 @@ class App extends React.Component {
 
   handlePhaseChange(event) {
     event.stopPropagation()
-    var phase = event.target.id
-    /// CHANGE THE Main View
-    let mainContentView;
-    let data = {
-      program: this.state.activeProgram,
-      project: this.state.activeProject,
-      goal: this.state.activeGoal,
-      objective: this.state.activeObjective
-    }
+    getAllPrograms().then(res => {
+      this.setState({ programs: res.data.programs })
+      var phase = event.target.id
+      /// CHANGE THE Main View
+      var mainContentView;
+      var data = {
+        program: this.state.activeProgram,
+        project: this.state.activeProject,
+        goal: this.state.activeGoal,
+        objective: this.state.activeObjective
+      }
+      // For Api call
+      var payload = {
+        programId: this.state.activeProgram._id,
+        projectId: this.state.activeProject._id,
+        goalId: this.state.activeGoal._id,
+        objectiveId: this.state.activeObjective._id
+      }
 
-    if (this.isAnyEmpty(data)) {
-      mainContentView = ''
-    }
-    else if (phase == 'planning') {
-      mainContentView = <MainView data={data} addKpi={this.handleAddKpi} saveKpiForm={this.handleKpiFormSave} />
+      if (this.isAnyEmpty(data)) {
+        mainContentView = ''
+      }
+      else if (phase == 'planning') {
+        mainContentView = <MainView data={data} addKpi={this.handleAddKpi} saveKpiForm={this.handleKpiFormSave} />
 
-    } else if (phase == 'evaluation') {
-      mainContentView = <EvalMainview data={data} />
+      } else if (phase == 'evaluation') {
 
-    } else {
 
-    }
+        getLatestObjective(payload).then(res => {
+          data.objective = res.data.objective
+          // console.log('New Data Objective is')
+          // console.log(data)
+          mainContentView = <EvalMainview data={data} />
+          this.setState({ mainContent: mainContentView, activePhase: phase })
 
-    this.setState({ mainContent: mainContentView, activePhase: phase })
+        })
 
+      } else {
+
+      }
+
+      this.setState({ mainContent: mainContentView, activePhase: phase })
+    }).catch(err => {
+      console.log('Error Fetching All Programs')
+    })
   }
 
   render() {

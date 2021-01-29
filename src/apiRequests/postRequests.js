@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { saveFormUrl, addProgramUrl, addProjectUrl, addGoalUrl, addObjectiveUrl, addKpiUrl, addKpiFormDefinitionUrl } from './url'
+import { saveFormUrl, addProgramUrl, addProjectUrl, addGoalUrl, addObjectiveUrl, addKpiUrl, addKpiFormDefinitionUrl, getLatestObjectiveUrl } from './url'
 
 
 
@@ -59,6 +59,14 @@ export function saveKpiFormDefinition(data) {
     return (axios({
         method: 'post',
         url: addKpiFormDefinitionUrl,
+        data: data
+    }))
+}
+
+export function getLatestObjective(data) {
+    return (axios({
+        method: 'post',
+        url: getLatestObjectiveUrl,
         data: data
     }))
 }

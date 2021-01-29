@@ -36,6 +36,12 @@ export const addKpiUrl = `${URL}/addKpi`
 
 export const addKpiFormDefinitionUrl = `${URL}/addKpiFormDefinition`
 
+export const getLatestObjectiveUrl = `${URL}/getLatestObjective`
+
+
+
+
+
 
 
 
